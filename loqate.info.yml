@@ -1,6 +1,6 @@
 name: 'Loqate'
 type: module
-description: 'LoThis module provides the integration with Loqate address lookk api.'
+description: 'Provides an integration with Loqate address lookup api.'
 core: 8.x
 package: 'Address'
 dependencies:
