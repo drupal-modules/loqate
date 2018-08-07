@@ -1,0 +1,11 @@
+
+loqate.loqate_api_key_config_form:
+  path: '/admin/config/loqate/api'
+  defaults:
+    _form: '\Drupal\loqate\Form\LoqateApiKeyConfigForm'
+    _title: 'LoqateApiKeyConfigForm'
+  requirements:
+    _permission: 'access administration pages'
+  options:
+    _admin_route: TRUE
+
