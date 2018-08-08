@@ -1,0 +1,7 @@
+.address-lookup--initial .form__item--address-address,
+.address-lookup--initial .form__item--address-address-2,
+.address-lookup--initial .form__item--address-city,
+.address-lookup--initial .form__item--address-country,
+.address-lookup--initial .form__item--address-state-province {
+  display: none;
+}
