@@ -37,7 +37,7 @@ class WebformAddressLoqate extends WebformCompositeBase {
   /**
    * {@inheritdoc}
    */
-  public static function getCompositeElements() {
+  public static function getCompositeElements(array $elements) {
     $elements = [];
     
     $elements['address'] = [
