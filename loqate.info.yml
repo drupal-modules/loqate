@@ -4,4 +4,4 @@ description: 'Provides an integration with Loqate address lookup api.'
 core: 8.x
 package: 'Address'
 dependencies:
-  - webform
+  - webform:webform
