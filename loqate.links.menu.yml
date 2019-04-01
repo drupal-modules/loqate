@@ -1,7 +1,6 @@
 loqate.loqate_api_key_config_form:
-  title: 'Loqate Api'
+  title: 'Loqate API'
   route_name: loqate.loqate_api_key_config_form
   description: 'Loqate api configurations.'
   parent: system.admin_config_services
   weight: 99
-
