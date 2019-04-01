@@ -53,9 +53,7 @@ class WebformAddressLoqate extends WebformCompositeBase {
       }
 
       $value['location'] = $location;
-      unset($value['city']);
-      unset($value['region']);
-      unset($value['postal_code']);
+      unset($value['city'], $value['region'], $value['postal_code']);
     }
 
     // Country preprocessing.
@@ -75,7 +73,7 @@ class WebformAddressLoqate extends WebformCompositeBase {
 
     $display_lines = [];
 
-    foreach($address_lines as $line) {
+    foreach ($address_lines as $line) {
       if (!empty($value[$line])) {
         $display_lines[$line] = $value[$line];
       }
@@ -100,7 +98,7 @@ class WebformAddressLoqate extends WebformCompositeBase {
     $value = $values[$field];
     $field = $composite_elements[$field];
     $type = $field['#type'];
-    $option_value = $type == 'select' ? $field['#options'][$value] : $value;
+    $option_value = $type === 'select' ? $field['#options'][$value] : $value;
 
     if ($option_value instanceof TranslatableMarkup) {
       $option_value = $option_value->__toString();

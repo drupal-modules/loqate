@@ -25,7 +25,7 @@ class WebformAddressLoqate extends WebformCompositeBase {
    */
   public static function preRenderCompositeFormElement($element) {
     // Getting the configuration key.
-    $loqateApikey = \Drupal::configFactory()->getEditable('loqate.loqateapikeyconfig')->get('loqate_api_key');
+    $loqateApikey = \Drupal::config('loqate.loqateapikeyconfig')->get('loqate_api_key');
 
     $element = parent::preRenderCompositeFormElement($element);
     $element['#wrapper_attributes']['class'][] = 'address-lookup';
@@ -57,7 +57,6 @@ class WebformAddressLoqate extends WebformCompositeBase {
    * {@inheritdoc}
    */
   public static function getCompositeElements(array $elements) {
-    $elements = [];
 
     $elements['address'] = [
       '#type' => 'textfield',
@@ -100,4 +99,5 @@ class WebformAddressLoqate extends WebformCompositeBase {
 
     return $elements;
   }
+
 }
