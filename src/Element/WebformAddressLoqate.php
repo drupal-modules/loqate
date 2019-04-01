@@ -15,22 +15,8 @@ class WebformAddressLoqate extends WebformCompositeBase {
    * {@inheritdoc}
    */
   public function getInfo() {
-    // Getting the configuration key.
-    $loqateApikey = \Drupal::configFactory()->getEditable('loqate.loqateapikeyconfig')->get('loqate_api_key');
     return parent::getInfo() + [
       '#theme' => 'webform_composite_address',
-      '#attached' => [
-        'library' => [
-          'loqate/loqate',
-          ],
-        'drupalSettings' => [
-          'loqate' => [
-            'loqate' => [
-              'key' => $loqateApikey,
-            ],
-          ],
-        ],
-      ],
     ];
   }
 
@@ -38,10 +24,25 @@ class WebformAddressLoqate extends WebformCompositeBase {
    * {@inheritdoc}
    */
   public static function preRenderCompositeFormElement($element) {
+    // Getting the configuration key.
+    $loqateApikey = \Drupal::configFactory()->getEditable('loqate.loqateapikeyconfig')->get('loqate_api_key');
+
     $element = parent::preRenderCompositeFormElement($element);
     $element['#wrapper_attributes']['class'][] = 'address-lookup';
     $element['#wrapper_attributes']['class'][] = 'address-lookup--initial';
     $element['#wrapper_attributes']['data-key'] = $element['#webform_key'];
+    $element['#attached'] = [
+      'library' => [
+        'loqate/loqate',
+      ],
+      'drupalSettings' => [
+        'loqate' => [
+          'loqate' => [
+            'key' => $loqateApikey,
+          ],
+        ],
+      ],
+    ];
 
     foreach (array_keys($element['#webform_composite_elements']) as $key) {
       if ($key !== 'postal_code') {
@@ -99,5 +100,4 @@ class WebformAddressLoqate extends WebformCompositeBase {
 
     return $elements;
   }
-
 }
