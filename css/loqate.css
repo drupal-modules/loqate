@@ -1,15 +1,3 @@
-.address-lookup--initial .form__item--address-address,
-.address-lookup--initial .form__item--address-address-2,
-.address-lookup--initial .form__item--address-city,
-.address-lookup--initial .form__item--address-country,
-.address-lookup--initial .form__item--address-state-province {
-  display: none;
-}
-
-.address-lookup--initial .form-item-address-address,
-.address-lookup--initial .form-item-address-address-2,
-.address-lookup--initial .form-item-address-city,
-.address-lookup--initial .form-item-address-country,
-.address-lookup--initial .form-item-address-state-province {
+.address-lookup--initial .address-lookup__field {
   display: none;
 }

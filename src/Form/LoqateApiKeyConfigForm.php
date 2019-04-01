@@ -33,13 +33,13 @@ class LoqateApiKeyConfigForm extends ConfigFormBase {
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
     $config = $this->config('loqate.loqateapikeyconfig');
-    
+
     $read_more_url = Url::fromUri('https://www.loqate.com/resources/support/setup-guides/advanced-setup-guide/#creating_a_key');
-    $description_read_more_link = Link::fromTextAndUrl('Read more about Loqate api.', $read_more_url);
+    $description_read_more_link = Link::fromTextAndUrl('Read more about Loqate API.', $read_more_url);
 
     $form['loqate_api_key'] = [
       '#type' => 'textfield',
-      '#title' => $this->t('Loqate Api key'),
+      '#title' => $this->t('Loqate API key'),
       '#description' => $description_read_more_link,
       '#maxlength' => 64,
       '#size' => 64,
