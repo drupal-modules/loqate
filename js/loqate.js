@@ -12,20 +12,21 @@
         return;
       }
 
-      var initialClass = 'address-lookup--initial';
-      var $addressLookup = $('.address-lookup', context);
-      var fieldHideClass = 'address-lookup__field--hidden';
+      var fieldClass = 'address-lookup__field';
+      var fieldInitialClass = 'address-lookup__field--initial';
+      var fieldHiddenClass = 'address-lookup__field--hidden';
 
-      $addressLookup.each(function () {
-        var $lookupFields = $(this);
+      $('.address-lookup', context).each(function () {
+        var $lookupWrapper = $(this);
+        var $lookupFields = $lookupWrapper.find('.' + fieldClass);
         var dataKey = $lookupFields.data('key');
-        var $provinceField = $lookupFields.find('[name="' + dataKey + '[state_province]"]');
-        var $regionField = $lookupFields.find('[name="' + dataKey + '[region]"]');
+        var $provinceField = $lookupWrapper.find('[name="' + dataKey + '[state_province]"]');
+        var $regionField = $lookupWrapper.find('[name="' + dataKey + '[region]"]');
         var provinceType = $provinceField.data('option-type') === 'state_province_codes' ? 'Province' : 'ProvinceName';
 
         // Initial setup for Loqate.
         var loqateFields = [
-          { element: 'search', field: '' },
+          { element: dataKey + '[search]', field: '' },
           { element: dataKey + '[address]', field: 'Line1' },
           { element: dataKey + '[address_2]', field: 'Line2', mode: pca.fieldMode.POPULATE },
           { element: dataKey + '[city]', field: 'City', mode: pca.fieldMode.POPULATE },
@@ -36,21 +37,21 @@
         ];
 
         var control = new pca.Address(loqateFields, loqateOptions);
+
         // Listener for when an address is populated.
         control.listen('populate', function (address) {
           if (address.ProvinceName !== '' && $provinceField.find('option[value="' + address[provinceType] + '"]').length > 0) {
             // ProvinceName exists in the State/Province drop-down.
-            $provinceField.closest('.address-lookup__field').show().removeClass(fieldHideClass);
-            $regionField.closest('.address-lookup__field').hide().addClass(fieldHideClass);
+            $provinceField.closest('.' + fieldClass).show().removeClass(fieldHiddenClass);
+            $regionField.closest('.' + fieldClass).hide().addClass(fieldHiddenClass);
           }
           else {
             // ProvinceName does not exist in the State/Province
             // drop-down, so use the region field instead.
-            $provinceField.closest('.address-lookup__field').hide().addClass(fieldHideClass);
-            $regionField.closest('.address-lookup__field').show().removeClass(fieldHideClass);
+            $provinceField.closest('.' + fieldClass).hide().addClass(fieldHiddenClass);
+            $regionField.closest('.' + fieldClass).show().removeClass(fieldHiddenClass);
           }
-
-          $lookupFields.removeClass(initialClass);
+          $lookupFields.removeClass(fieldInitialClass);
         });
       });
     }

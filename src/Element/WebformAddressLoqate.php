@@ -23,14 +23,22 @@ class WebformAddressLoqate extends WebformCompositeBase {
   /**
    * {@inheritdoc}
    */
-  public static function preRenderCompositeFormElement($element) {
-    // Getting the configuration key.
-    $loqateApikey = \Drupal::config('loqate.loqateapikeyconfig')->get('loqate_api_key');
+  public static function preRenderWebformCompositeFormElement($element) {
+    $element = parent::preRenderWebformCompositeFormElement($element);
 
-    $element = parent::preRenderCompositeFormElement($element);
-    $element['#wrapper_attributes']['class'][] = 'address-lookup';
-    $element['#wrapper_attributes']['class'][] = 'address-lookup--initial';
-    $element['#wrapper_attributes']['data-key'] = $element['#webform_key'];
+    // Address lookup wrapper & trigger class.
+    $element['#attributes']['class'][] = 'address-lookup';
+
+    foreach (array_keys($element['#webform_composite_elements']) as $key) {
+      if ($key !== 'postal_code') {
+        // Initial class for hidden fields.
+        $element[$key]['#wrapper_attributes']['class'][] = 'address-lookup__field--initial';
+      }
+      // Generic class and data attribute.
+      $element[$key]['#wrapper_attributes']['class'][] = 'address-lookup__field';
+      $element[$key]['#wrapper_attributes']['data-key'] = $element['#webform_key'];
+    }
+
     $element['#attached'] = [
       'library' => [
         'loqate/loqate',
@@ -38,17 +46,11 @@ class WebformAddressLoqate extends WebformCompositeBase {
       'drupalSettings' => [
         'loqate' => [
           'loqate' => [
-            'key' => $loqateApikey,
+            'key' => \Drupal::config('loqate.loqateapikeyconfig')->get('loqate_api_key'),
           ],
         ],
       ],
     ];
-
-    foreach (array_keys($element['#webform_composite_elements']) as $key) {
-      if ($key !== 'postal_code') {
-        $element[$key]['#wrapper_attributes']['class'][] = 'address-lookup__field';
-      }
-    }
 
     return $element;
   }
