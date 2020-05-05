@@ -1,0 +1,8 @@
+name: 'PCA Address'
+type: module
+description: 'PCA Address integration with the Address module.'
+core: 8.x
+package: 'Address'
+dependencies:
+  - loqate:loqate
+  - address:address
