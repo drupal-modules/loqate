@@ -1,5 +1,4 @@
 libraries.loqate.address.js:
-  remote: https://services.postcodeanywhere.co.uk
   version: '3.91'
   js:
     //services.postcodeanywhere.co.uk/js/address-3.91.js: { type: external }
