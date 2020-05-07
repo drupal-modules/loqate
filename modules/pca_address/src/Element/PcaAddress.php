@@ -28,7 +28,7 @@ class PcaAddress extends Address {
   public function getInfo() {
     $info = parent::getInfo();
     $info['#process'][] = [get_class($this), 'processPcaAddress'];
-    $info['#attached']['library'][] = 'pca_address/libraries.loqate.address.js';
+    $info['#attached']['library'][] = 'pca_address/element.pca_address.address.js';
     return $info;
   }
 
@@ -41,6 +41,7 @@ class PcaAddress extends Address {
       '#title' => t('Search Address'),
       '#weight' => -150,
     ];
+    $element['#attached']['drupalSettings']['pca_address']['elements'][] = '#' . $element['#id'];
     return $element;
   }
 

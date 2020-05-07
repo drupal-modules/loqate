@@ -1,4 +1,15 @@
-libraries.loqate.address.js:
+element.pca_address.address.js:
+  version: VERSION
+  js:
+    js/pca-address.js: {}
+  dependencies:
+    - core/jquery
+    - core/jquery.once
+    - core/drupal
+    - core/drupalSettings
+    - pca_address/libraries.pca_address.address.js
+
+libraries.pca_address.address.js:
   version: '3.91'
   js:
     //services.postcodeanywhere.co.uk/js/address-3.91.js: { type: external }
