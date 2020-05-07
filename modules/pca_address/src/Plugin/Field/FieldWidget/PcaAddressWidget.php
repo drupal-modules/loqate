@@ -24,17 +24,8 @@ class PcaAddressWidget extends AddressDefaultWidget {
    */
   public function formElement(FieldItemListInterface $items, $delta, array $element, array &$form, FormStateInterface $form_state) {
     $element = parent::formElement($items, $delta, $element,$form, $form_state);
-
-    // Add lookup field.
-    $element['lookup'] = [
-      '#type' => 'textfield',
-      '#title' => $this->t('Search Address'),
-      '#weight' => -150,
-    ];
-
-    // Postcode Anywhere Address JS.
-    $element['#attached']['library'][] = 'pca_address/libraries.loqate.address.js';
-
+    // Override to PCA address variant.
+    $element['address']['#type'] = 'pca_address';
     return $element;
   }
 
