@@ -15,16 +15,11 @@ use Drupal\pca_address\FieldMapping\PcaAddressElement;
  *   '#type' => 'pca_address',
  *   '#field_mapping' => [
  *     [
- *       'element' => PcaAddressElement::ORGANIZATION,
- *       'field' => PcaAddressField::COMPANY,
- *       'mode' => [
- *         PcaAddressMode::DEFAULT,
- *         PcaAddressMode::PRESERVE,
- *       ],
+ *       'element' => PcaAddressElement::ADDRESS_LOOKUP,
  *     ],
  *     [
- *       'element' => PcaAddressElement::ADDRESS_LINE2,
- *       'field' => PcaAddressField::Line2,
+ *       'element' => PcaAddressElement::ADDRESS_LINE1,
+ *       'field' => PcaAddressField::Line1,
  *       'mode' => PcaAddressMode::POPULATE,
  *     ],
  *     ...
