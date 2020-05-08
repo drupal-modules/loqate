@@ -54,7 +54,11 @@ MAINTAINERS
 -----------
 
  * Rakesh James (rakesh.gectcr) - https://www.drupal.org/u/rakeshgectcr
+ 
+ * Sang Lostrie (baikho) - https://www.drupal.org/u/baikho
 
 Supporting organizations:
+
+ * Access - https://www.drupal.org/access
 
  * CTI Digital - https://www.drupal.org/cti-digital
