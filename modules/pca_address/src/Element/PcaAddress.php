@@ -4,7 +4,7 @@ namespace Drupal\pca_address\Element;
 
 use Drupal\address\Element\Address;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\pca_address\FieldMapping\PcaAddressElement;
+use Drupal\loqate\PcaAddressFieldMapping\PcaAddressElement;
 
 /**
  * Provides a PCA address form element.

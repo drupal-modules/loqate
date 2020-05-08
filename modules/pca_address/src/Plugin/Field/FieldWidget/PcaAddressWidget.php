@@ -6,7 +6,7 @@ use Drupal\address\LabelHelper;
 use Drupal\address\Plugin\Field\FieldWidget\AddressDefaultWidget;
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\pca_address\FieldMapping\PcaAddressMode;
+use Drupal\loqate\PcaAddressFieldMapping\PcaAddressMode;
 
 /**
  * Plugin implementation of the 'pca_address' widget.

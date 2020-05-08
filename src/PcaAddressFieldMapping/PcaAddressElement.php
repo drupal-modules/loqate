@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\pca_address\FieldMapping;
+namespace Drupal\loqate\PcaAddressFieldMapping;
 
 /**
  * Field mapping element for PCA Address.
