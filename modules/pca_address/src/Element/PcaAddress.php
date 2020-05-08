@@ -82,6 +82,8 @@ class PcaAddress extends Address {
    *
    * @param array $element
    *   Element array.
+   *
+   * @see https://www.loqate.com/resources/support/setup-guides/advanced-setup-guide/#mapping_fields
    */
   private static function normalisefieldMapping(array &$element): void {
     foreach ($element['#field_mapping'] as $i => $field_mapping) {
