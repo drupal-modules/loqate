@@ -2,4 +2,5 @@ name: 'Loqate'
 type: module
 description: 'Provides an integration with Loqate address lookup API.'
 core: 8.x
+core_version_requirement: ^8 || ^9
 package: 'Address'
