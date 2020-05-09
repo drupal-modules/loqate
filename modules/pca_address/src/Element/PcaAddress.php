@@ -5,6 +5,7 @@ namespace Drupal\pca_address\Element;
 use Drupal\address\Element\Address;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\loqate\PcaAddressFieldMapping\PcaAddressElement;
+use Drupal\pca_address\Form\PcaAddressSettingsForm;
 
 /**
  * Provides a PCA address form element.
@@ -72,7 +73,7 @@ class PcaAddress extends Address {
   }
 
   /**
-   * Normalise field mapping output.
+   * Processes field mapping output.
    *
    * This method is responsible for:
    * - Validates field mapping as existing fields
@@ -86,21 +87,24 @@ class PcaAddress extends Address {
    * @see https://www.loqate.com/resources/support/setup-guides/advanced-setup-guide/#mapping_fields
    */
   private static function preparePcaFieldMapping(array &$element): void {
-    if (isset($element['#pca_fields'])) {
-      foreach ($element['#pca_fields'] as $i => $field_mapping) {
-        // Add context for our element selectors.
-        if (isset($field_mapping['element']) && !empty($field_mapping['element'])) {
-          // Prepend id on field map.
-          $element['#pca_fields'][$i]['element'] = "{$element['#name']}[{$field_mapping['element']}]";
-        }
-        // Fallback value.
-        if (!isset($field_mapping['field']) || empty($field_mapping['field'])) {
-          $element['#pca_fields'][$i]['field'] = '';
-        }
-      }
-      // Expose the field_mapping options to Drupal Settings.
-      $element['#attached']['drupalSettings']['pca_address']['elements']['#' . $element['#id']]['fields'] = $element['#pca_fields'];
+    // Fallback to settings.
+    if (!isset($element['#pca_fields']) || empty($element['#pca_fields'])) {
+      $element['#pca_fields'] = \Drupal::config('pca_address.settings')->get(PcaAddressSettingsForm::FIELD_MAPPING);
     }
+    // Start normalising value output.
+    foreach ($element['#pca_fields'] as $i => $field_mapping) {
+      // Add context for our element selectors.
+      if (isset($field_mapping['element']) && !empty($field_mapping['element'])) {
+        // Prepend id on field map.
+        $element['#pca_fields'][$i]['element'] = "{$element['#name']}[{$field_mapping['element']}]";
+      }
+      // Fallback value.
+      if (!isset($field_mapping['field']) || empty($field_mapping['field'])) {
+        $element['#pca_fields'][$i]['field'] = '';
+      }
+    }
+    // Expose the field_mapping options to Drupal Settings.
+    $element['#attached']['drupalSettings']['pca_address']['elements']['#' . $element['#id']]['fields'] = $element['#pca_fields'];
   }
 
   /**

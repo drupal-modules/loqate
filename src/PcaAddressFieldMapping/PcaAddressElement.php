@@ -17,4 +17,8 @@ final class PcaAddressElement {
 
   public const POSTAL_CODE = 'postal_code';
 
+  static function getConstants() {
+    return (new \ReflectionClass(__CLASS__))->getConstants();
+  }
+
 }

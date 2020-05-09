@@ -2,9 +2,9 @@
 
 namespace Drupal\pca_address\Form;
 
-use Drupal\address\LabelHelper;
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\loqate\PcaAddressFieldMapping\PcaAddressElement;
 use Drupal\loqate\PcaAddressFieldMapping\PcaAddressField;
 use Drupal\loqate\PcaAddressFieldMapping\PcaAddressMode;
 
@@ -63,8 +63,8 @@ class PcaAddressSettingsForm extends ConfigFormBase {
     ];
 
     $rows = [];
-    foreach (LabelHelper::getGenericFieldLabels() as $field_name => $label) {
-
+    $pca_address_elements = array_flip(PcaAddressElement::getConstants());
+    foreach (PcaAddressElement::getConstants() as $field_name) {
       $default_values = [];
       foreach ($config->get(self::FIELD_MAPPING) as $field_map) {
         if ($field_map['element'] === $field_name) {
@@ -79,16 +79,16 @@ class PcaAddressSettingsForm extends ConfigFormBase {
         'element' => [
           'data' => [
             '#type' => 'markup',
-            '#markup' => $label,
+            '#markup' => $field_name,
           ],
         ],
         'field' => [
           'data' => [
             '#type' => 'select',
             '#options' => [
-              0 => $this->t('- None -'),
+              '' => $this->t('- None -'),
             ] + array_combine(PcaAddressField::getConstants(), PcaAddressField::getConstants()),
-            '#default_value' => $default_values['field'] ?? 0,
+            '#default_value' => $default_values['field'] ?? '',
           ],
         ],
         'mode' => [
