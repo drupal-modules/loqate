@@ -1,0 +1,4 @@
+loqate.loqate_api_key_config_form:
+  route_name: loqate.loqate_api_key_config_form
+  title: 'Settings'
+  base_route: loqate.loqate_api_key_config_form

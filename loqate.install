@@ -1,0 +1,15 @@
+<?php
+
+/**
+ * @file
+ * Contains loqate.install.
+ */
+
+/**
+ * Decoupled Webform so install pca_webform submodule for the moved plugins.
+ */
+function loqate_update_8001() {
+  // All sites using this module up until now would have had these plugins.
+  \Drupal::service('module_installer')->install(['pca_webform']);
+  return t('PCA Webform installed.');
+}

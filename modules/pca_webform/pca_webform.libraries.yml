@@ -1,0 +1,13 @@
+element.pca_webform.address.js:
+  version: VERSION
+  js:
+    js/pca-webform.js: {}
+  css:
+    theme:
+      css/pca-webform.css: {}
+  dependencies:
+    - core/jquery
+    - core/jquery.once
+    - core/drupal
+    - core/drupalSettings
+    - loqate/libraries.pca.address.js

@@ -25,7 +25,8 @@ REQUIREMENTS
 
 This module requires the following outside of Drupal core:
 
- * Webform - https://www.drupal.org/project/webform
+ * Address - https://www.drupal.org/project/address
+ * Webform (optional) - https://www.drupal.org/project/webform
  * Loqate key -
    https://www.loqate.com/resources/support/setup-guides/advanced-setup-guide/#creating_a_key
 
@@ -54,7 +55,11 @@ MAINTAINERS
 -----------
 
  * Rakesh James (rakesh.gectcr) - https://www.drupal.org/u/rakeshgectcr
+ 
+ * Sang Lostrie (baikho) - https://www.drupal.org/u/baikho
 
 Supporting organizations:
+
+ * Access - https://www.drupal.org/access
 
  * CTI Digital - https://www.drupal.org/cti-digital
