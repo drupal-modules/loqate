@@ -15,7 +15,7 @@
     attach: function attach(context, settings) {
       const elements = settings.pca_address && settings.pca_address.elements ? settings.pca_address.elements : null;
       $(context).find('.pca-address').once('pcaAddress').each(function () {
-        // Get field mapping.
+        // Get field mapping and options.
         let fields = false;
         let options = false;
         if (elements && typeof elements['#' + $(this).attr('id')] !== 'undefined') {
