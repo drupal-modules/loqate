@@ -1,0 +1,25 @@
+field_mapping:
+  -
+    element: address_lookup
+    field: ''
+    mode: 3
+  -
+    element: locality
+    field: City
+    mode: 2
+  -
+    element: postal_code
+    field: PostalCode
+    mode: 2
+  -
+    element: address_line1
+    field: Line1
+    mode: 2
+  -
+    element: address_line2
+    field: Line2
+    mode: 2
+  -
+    element: organization
+    field: Company
+    mode: 2
