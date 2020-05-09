@@ -1,0 +1,20 @@
+<?php
+
+/**
+ * @file
+ * Contains pca_webform.module.
+ */
+
+/**
+ * Implements hook_webform_options_alter().
+ */
+function pca_webform_webform_options_alter(array &$options, array &$element) {
+  // If element options doesn't exist or if the options is an array then
+  // exit early.
+  if (!isset($element['#options']) || is_array($element['#options'])) {
+    return;
+  }
+
+  // Where a system set of options is used, apply a data attribute to use in JS.
+  $element['#attributes']['data-option-type'] = $element['#options'];
+}

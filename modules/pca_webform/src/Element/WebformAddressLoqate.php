@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\loqate\Element;
+namespace Drupal\pca_webform\Element;
 
 use Drupal\webform\Element\WebformCompositeBase;
 
@@ -41,7 +41,7 @@ class WebformAddressLoqate extends WebformCompositeBase {
 
     $element['#attached'] = [
       'library' => [
-        'loqate/loqate',
+        'pca_webform/element.pca_webform.address.js',
       ],
       'drupalSettings' => [
         'loqate' => [

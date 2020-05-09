@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\loqate\Plugin\WebformElement;
+namespace Drupal\pca_webform\Plugin\WebformElement;
 
 use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\webform\WebformSubmissionInterface;

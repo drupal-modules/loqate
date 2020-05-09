@@ -1,7 +1,10 @@
-element.pca_address.address.js:
+element.pca_webform.address.js:
   version: VERSION
   js:
-    js/pca-address.js: {}
+    js/pca-webform.js: {}
+  css:
+    theme:
+      css/pca-webform.css: {}
   dependencies:
     - core/jquery
     - core/jquery.once

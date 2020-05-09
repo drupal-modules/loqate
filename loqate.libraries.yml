@@ -1,10 +1,7 @@
-loqate:
-  version: 3.70
+libraries.pca.address.js:
+  version: '3.91'
   js:
-    //services.postcodeanywhere.co.uk/js/address-3.70.js: { type: external }
-    js/loqate.js: {}
+    //services.postcodeanywhere.co.uk/js/address-3.91.js: { type: external }
   css:
     component:
-      //services.postcodeanywhere.co.uk/css/address-3.70.css: { type: external }
-    theme:
-      css/loqate.css: {}
+      //services.postcodeanywhere.co.uk/css/address-3.91.css: { type: external }
