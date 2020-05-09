@@ -13,13 +13,14 @@
    */
   Drupal.behaviors.pcaAddress = {
     attach: function attach(context, settings) {
-      const options = settings.pca_address.options;
       const elements = settings.pca_address && settings.pca_address.elements ? settings.pca_address.elements : null;
       $(context).find('.pca-address').once('pcaAddress').each(function () {
         // Get field mapping.
         let fields = false;
+        let options = false;
         if (elements && typeof elements['#' + $(this).attr('id')] !== 'undefined') {
           fields = elements['#' + $(this).attr('id')].fields;
+          options = elements['#' + $(this).attr('id')].options;
         }
 
         // let options = {
