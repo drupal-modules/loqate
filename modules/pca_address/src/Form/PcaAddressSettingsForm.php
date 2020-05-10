@@ -20,7 +20,12 @@ class PcaAddressSettingsForm extends ConfigFormBase {
   /**
    * Config key for field mapping.
    */
-  public const FIELD_MAPPING = 'field_mapping';
+  public const PCA_FIELDS = 'pca_fields';
+
+  /**
+   * Config key for PCA options.
+   */
+  public const PCA_OPTIONS = 'pca_options';
 
   /**
    * {@inheritdoc)
@@ -45,7 +50,7 @@ class PcaAddressSettingsForm extends ConfigFormBase {
 
     $config = $this->config('pca_address.settings');
 
-    $form[self::FIELD_MAPPING] = [
+    $form['field_mapping'] = [
       '#title' => $this->t('Field mapping'),
       '#type' => 'details',
       '#open' => TRUE,
@@ -56,11 +61,11 @@ class PcaAddressSettingsForm extends ConfigFormBase {
       '@link' => $doc_link->toString(),
     ]);
 
-    $form[self::FIELD_MAPPING]['description'] = [
+    $form['field_mapping']['description'] = [
       '#markup' => '<p>' . $doc_markup . '</p>',
     ];
 
-    $form[self::FIELD_MAPPING]['settings'] = [
+    $form['field_mapping'][self::PCA_FIELDS] = [
       '#type' => 'table',
       '#header' => [
         'element' => [
@@ -82,7 +87,7 @@ class PcaAddressSettingsForm extends ConfigFormBase {
     $rows = [];
     foreach (PcaAddressElement::getConstants() as $field_name) {
       $default_values = [];
-      foreach ($config->get(self::FIELD_MAPPING) as $field_map) {
+      foreach ($config->get(self::PCA_FIELDS) as $field_map) {
         if ($field_map['element'] === $field_name) {
           $default_values['field'] = $field_map['field'];
           $default_values['mode'] = $field_map['mode'];
@@ -130,7 +135,7 @@ class PcaAddressSettingsForm extends ConfigFormBase {
       ];
     }
 
-    $form[self::FIELD_MAPPING]['settings'] += $rows;
+    $form['field_mapping'][self::PCA_FIELDS] += $rows;
 
     return parent::buildForm($form, $form_state);
   }
@@ -139,7 +144,7 @@ class PcaAddressSettingsForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
-    $values = $form_state->getValue('settings');
+    $values = $form_state->getValue(self::PCA_FIELDS);
     $field_mapping = [];
     foreach ($values as $i => $value) {
       if ((bool) $value['enabled']['data'] === FALSE) {
@@ -152,7 +157,7 @@ class PcaAddressSettingsForm extends ConfigFormBase {
       ];
     }
     $this->config('pca_address.settings')
-      ->set(self::FIELD_MAPPING, $field_mapping)
+      ->set(self::PCA_FIELDS, $field_mapping)
       ->save();
     parent::submitForm($form, $form_state);
   }

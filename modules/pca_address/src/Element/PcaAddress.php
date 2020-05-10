@@ -62,6 +62,7 @@ class PcaAddress extends Address {
       '#type' => 'textfield',
       '#title' => t('Search Address'),
       '#weight' => -150,
+      '#placeholder' => t('Start typing your address'),
     ];
     // Prepare field mapping specification.
     self::preparePcaFieldMapping($element);
@@ -89,7 +90,7 @@ class PcaAddress extends Address {
   private static function preparePcaFieldMapping(array &$element): void {
     // Fallback to settings.
     if (!isset($element['#pca_fields']) || empty($element['#pca_fields'])) {
-      $element['#pca_fields'] = \Drupal::config('pca_address.settings')->get(PcaAddressSettingsForm::FIELD_MAPPING);
+      $element['#pca_fields'] = \Drupal::config('pca_address.settings')->get(PcaAddressSettingsForm::PCA_FIELDS);
     }
     // Start normalising value output.
     foreach ($element['#pca_fields'] as $i => $field_mapping) {

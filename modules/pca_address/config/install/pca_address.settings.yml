@@ -1,4 +1,4 @@
-field_mapping:
+pca_fields:
   -
     element: address_lookup
     field: ''
