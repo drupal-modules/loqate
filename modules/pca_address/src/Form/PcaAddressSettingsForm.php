@@ -4,6 +4,8 @@ namespace Drupal\pca_address\Form;
 
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Link;
+use Drupal\Core\Url;
 use Drupal\loqate\PcaAddressFieldMapping\PcaAddressElement;
 use Drupal\loqate\PcaAddressFieldMapping\PcaAddressField;
 use Drupal\loqate\PcaAddressFieldMapping\PcaAddressMode;
@@ -44,6 +46,21 @@ class PcaAddressSettingsForm extends ConfigFormBase {
     $config = $this->config('pca_address.settings');
 
     $form[self::FIELD_MAPPING] = [
+      '#title' => $this->t('Field mapping'),
+      '#type' => 'details',
+      '#open' => TRUE,
+    ];
+
+    $doc_link = Link::fromTextAndUrl('Mapping your fields', Url::fromUri('https://www.loqate.com/resources/support/setup-guides/advanced-setup-guide/#mapping_fields'));
+    $doc_markup = $this->t('These settings are used as the fields object when instantiating a pca.Address object. See @link for more details about the field mapping format.', [
+      '@link' => $doc_link->toString(),
+    ]);
+
+    $form[self::FIELD_MAPPING]['description'] = [
+      '#markup' => '<p>' . $doc_markup . '</p>',
+    ];
+
+    $form[self::FIELD_MAPPING]['settings'] = [
       '#type' => 'table',
       '#header' => [
         'element' => [
@@ -63,7 +80,6 @@ class PcaAddressSettingsForm extends ConfigFormBase {
     ];
 
     $rows = [];
-    $pca_address_elements = array_flip(PcaAddressElement::getConstants());
     foreach (PcaAddressElement::getConstants() as $field_name) {
       $default_values = [];
       foreach ($config->get(self::FIELD_MAPPING) as $field_map) {
@@ -114,7 +130,7 @@ class PcaAddressSettingsForm extends ConfigFormBase {
       ];
     }
 
-    $form[self::FIELD_MAPPING] += $rows;
+    $form[self::FIELD_MAPPING]['settings'] += $rows;
 
     return parent::buildForm($form, $form_state);
   }
@@ -123,7 +139,7 @@ class PcaAddressSettingsForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
-    $values = $form_state->getValue(self::FIELD_MAPPING);
+    $values = $form_state->getValue('settings');
     $field_mapping = [];
     foreach ($values as $i => $value) {
       if ((bool) $value['enabled']['data'] === FALSE) {
