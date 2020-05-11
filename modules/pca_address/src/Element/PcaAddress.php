@@ -5,7 +5,9 @@ namespace Drupal\pca_address\Element;
 use Drupal\address\Element\Address;
 use Drupal\Component\Utility\Html;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Link;
 use Drupal\Core\Render\Element;
+use Drupal\Core\Url;
 use Drupal\loqate\PcaAddressFieldMapping\PcaAddressElement;
 use Drupal\pca_address\Form\PcaAddressSettingsForm;
 
@@ -72,6 +74,13 @@ class PcaAddress extends Address {
       '#weight' => -150,
       '#placeholder' => t('Start typing your address'),
     ];
+    // Determine if we need to add a manual input link.
+    if (!isset($element['#allow_manual_input']) || $element['#allow_manual_input'] === TRUE) {
+      $manual_input_link = Link::fromTextAndUrl('Click here', Url::fromUserInput('#enter-address'));
+      $element[PcaAddressElement::ADDRESS_LOOKUP]['#suffix'] = '<div class="manual-address">' . t('@link to enter your address manually.', [
+        '@link' => $manual_input_link->toString(),
+      ]) . '</div>';
+    }
     // Prepare field mapping specification.
     self::preparePcaFieldMapping($element);
     // Prepare and expose options to Drupal Settings.
