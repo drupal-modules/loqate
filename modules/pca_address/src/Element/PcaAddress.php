@@ -3,7 +3,11 @@
 namespace Drupal\pca_address\Element;
 
 use Drupal\address\Element\Address;
+use Drupal\Component\Utility\Html;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Link;
+use Drupal\Core\Render\Element;
+use Drupal\Core\Url;
 use Drupal\loqate\PcaAddressFieldMapping\PcaAddressElement;
 use Drupal\pca_address\Form\PcaAddressSettingsForm;
 
@@ -31,6 +35,8 @@ use Drupal\pca_address\Form\PcaAddressSettingsForm;
  *     'setCountryByIP' => false,
  *     ...
  *   ],
+ *   '#show_address_fields' => FALSE,
+ *   '#allow_manual_input' => TRUE,
  *   ...
  * ];
  * @endcode
@@ -49,6 +55,8 @@ class PcaAddress extends Address {
     $info['#process'][] = [get_class($this), 'processPcaAddress'];
     $info['#pca_fields'] = [];
     $info['#pca_options'] = [];
+    $info['#show_address_fields'] = FALSE;
+    $info['#allow_manual_input'] = TRUE;
     $info['#attached']['library'][] = 'pca_address/element.pca_address.address.js';
     return $info;
   }
@@ -57,6 +65,8 @@ class PcaAddress extends Address {
    * Process the PCA address form element.
    */
   public static function processPcaAddress(array &$element, FormStateInterface $form_state, array &$complete_form) {
+    // Wrap render array in a wrapper before doing anything.
+    self::wrapAddressFieldsInit($element);
     // Add a lookup text field.
     $element[PcaAddressElement::ADDRESS_LOOKUP] = [
       '#type' => 'textfield',
@@ -64,6 +74,13 @@ class PcaAddress extends Address {
       '#weight' => -150,
       '#placeholder' => t('Start typing your address'),
     ];
+    // Determine if we need to add a manual input link.
+    if (!isset($element['#allow_manual_input']) || $element['#allow_manual_input'] === TRUE) {
+      $manual_input_link = Link::fromTextAndUrl('Click here', Url::fromUserInput('#enter-address'));
+      $element[PcaAddressElement::ADDRESS_LOOKUP]['#suffix'] = '<div class="manual-address">' . t('@link to enter your address manually.', [
+        '@link' => $manual_input_link->toString(),
+      ]) . '</div>';
+    }
     // Prepare field mapping specification.
     self::preparePcaFieldMapping($element);
     // Prepare and expose options to Drupal Settings.
@@ -71,6 +88,38 @@ class PcaAddress extends Address {
     // Add a generic class for all PCA Address elements.
     $element['#attributes']['class'][] = 'pca-address';
     return $element;
+  }
+
+  /**
+   * Alters the original render array in favor of PCA.
+   *
+   * @param array $element
+   *   Element array.
+   */
+  private static function wrapAddressFieldsInit(array &$element): void {
+    // Wrap original elements in a wrapper w/o affecting the render array
+    // structure.
+    $wrapper_id = Html::getUniqueId($element['#name'] . '-address-wrapper');
+    // Check if we need to hide the address fields initially.
+    $wrapper_class = '';
+    if (!isset($element['#show_address_fields']) || $element['#show_address_fields'] !== TRUE) {
+      $wrapper_class = 'hidden';
+    }
+    $children = Element::children($element);
+    foreach ($children as $i => $key) {
+      if (isset($element[$key]) && !empty($element[$key])) {
+        // Prefix first child.
+        if ($i === 0) {
+          $element[$key]['#prefix'] = '<div id="' . $wrapper_id . '" class="' . $wrapper_class . '">';
+        }
+        // Suffix last child.
+        elseif ($i === count($children) - 1) {
+          $element[$key]['#suffix'] = '</div>';
+        }
+      }
+    }
+    // Expose address wrapper id to Drupal Settings.
+    $element['#attached']['drupalSettings']['pca_address']['elements']['#' . $element['#id']]['address_wrapper'] = $wrapper_id;
   }
 
   /**
