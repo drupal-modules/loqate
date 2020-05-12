@@ -19,25 +19,35 @@
         let fields = null;
         let options = null;
         let addressWrapper = null;
+        let showAddressFields = null;
+        let allowManualInput = null;
         if (elements && typeof elements['#' + $(this).attr('id')] !== undefined) {
           fields = elements['#' + $(this).attr('id')].fields;
           options = elements['#' + $(this).attr('id')].options;
           addressWrapper = elements['#' + $(this).attr('id')].address_wrapper;
+          showAddressFields = elements['#' + $(this).attr('id')].show_address_fields;
+          allowManualInput = elements['#' + $(this).attr('id')].allow_manual_input;
         }
         const control = new pca.Address(fields, options);
         control.listen("load", function() {
           // control.setCountry("CAN");
         });
         control.listen("populate", function(address, variations) {
-          showAddressFields(addressWrapper);
+          // Double check if we allow manual input.
+          if (allowManualInput === true) {
+            doShowAddressFields(addressWrapper);
+          }
           // Populate address label field.
           populateAddressLabelField(addressWrapper, address, fields);
           // document.getElementById("myCustomField").value = address.PostalCode;
         });
-        // Manual entry toggle.
-        $('.manual-address a', context).on('click', function() {
-          showAddressFields(addressWrapper);
-        });
+        // Double check if we allow manual input.
+        if (allowManualInput === true) {
+          // Manual entry toggle.
+          $('.manual-address a', context).on('click', function () {
+            doShowAddressFields(addressWrapper);
+          });
+        }
       });
     },
     detach: function detach(context, settings, trigger) {}
@@ -48,7 +58,7 @@
    *
    * @param addressWrapper
    */
-  function showAddressFields(addressWrapper) {
+  function doShowAddressFields(addressWrapper) {
     // Remove the hidden class from the address wrapper.
     document.getElementById(addressWrapper).className = document.getElementById(addressWrapper)
       .className.replace(/\bhidden\b/,'');

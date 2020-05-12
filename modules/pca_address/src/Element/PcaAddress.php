@@ -77,6 +77,9 @@ class PcaAddress extends Address {
     self::preparePcaOptions($element);
     // Add a generic class for all PCA Address elements.
     $element['#attributes']['class'][] = 'pca-address';
+    // Expose more attributes to Drupal Settings.
+    $element['#attached']['drupalSettings']['pca_address']['elements']['#' . $element['#id']]['show_address_fields'] = $element['#show_address_fields'];
+    $element['#attached']['drupalSettings']['pca_address']['elements']['#' . $element['#id']]['allow_manual_input'] = $element['#allow_manual_input'];
     return $element;
   }
 
@@ -92,7 +95,7 @@ class PcaAddress extends Address {
     $wrapper_id = Html::getUniqueId($element['#name'] . '-address-wrapper');
     // Check if we need to hide the address fields initially.
     $wrapper_class = '';
-    if (!isset($element['#show_address_fields']) || $element['#show_address_fields'] !== TRUE) {
+    if ($element['#show_address_fields'] !== TRUE) {
       $wrapper_class = 'hidden';
     }
     $children = Element::children($element);
@@ -127,9 +130,7 @@ class PcaAddress extends Address {
       '#placeholder' => \Drupal::translation()->translate('Start typing your address'),
     ];
     // Determine if we need to add a manual input link.
-    $show_address_fields = !isset($element['#show_address_fields']) || $element['#show_address_fields'] !== TRUE;
-    $allow_manual_input = !isset($element['#allow_manual_input']) || $element['#allow_manual_input'] === TRUE;
-    if ($show_address_fields && $allow_manual_input) {
+    if ($element['#show_address_fields'] !== TRUE && $element['#allow_manual_input'] === TRUE) {
       $manual_input_link = Link::fromTextAndUrl('Click here', Url::fromUserInput('#enter-address'));
       $element[PcaAddressElement::ADDRESS_LOOKUP]['#suffix'] = '<span class="manual-address">' . \Drupal::translation()->translate('@link to enter your address manually.', [
         '@link' => $manual_input_link->toString(),
@@ -155,7 +156,7 @@ class PcaAddress extends Address {
       ],
     ];
     // Determine if we need to add an edit address link.
-    if (!isset($element['#allow_manual_input']) || $element['#allow_manual_input'] === TRUE) {
+    if ($element['#allow_manual_input'] === TRUE) {
       $edit_input_link = Link::fromTextAndUrl('Edit address', Url::fromUserInput('#edit-address'));
       $element['address_label']['#markup'] .= $edit_input_link->toString();
     }

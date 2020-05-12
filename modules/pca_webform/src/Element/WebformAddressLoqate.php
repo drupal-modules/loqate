@@ -60,43 +60,45 @@ class WebformAddressLoqate extends WebformCompositeBase {
    */
   public static function getCompositeElements(array $element) {
 
+    $t = \Drupal::translation();
+
     $elements = [];
 
     $elements['address'] = [
       '#type' => 'textfield',
-      '#title' => t('Address'),
+      '#title' => $t->translate('Address'),
     ];
 
     $elements['address_2'] = [
       '#type' => 'textfield',
-      '#title' => t('Address 2'),
+      '#title' => $t->translate('Address 2'),
     ];
 
     $elements['city'] = [
       '#type' => 'textfield',
-      '#title' => t('City/Town'),
+      '#title' => $t->translate('City/Town'),
     ];
 
     $elements['region'] = [
       '#type' => 'textfield',
-      '#title' => t('Region'),
+      '#title' => $t->translate('Region'),
     ];
 
     $elements['state_province'] = [
       '#type' => 'select',
-      '#title' => t('State/Province'),
+      '#title' => $t->translate('State/Province'),
       '#options' => 'state_province_names',
       '#empty_option' => '',
     ];
 
     $elements['postal_code'] = [
       '#type' => 'textfield',
-      '#title' => t('Zip/Postal Code'),
+      '#title' => $t->translate('Zip/Postal Code'),
     ];
 
     $elements['country'] = [
       '#type' => 'select',
-      '#title' => t('Country'),
+      '#title' => $t->translate('Country'),
       '#options' => 'country_names',
       '#empty_option' => '',
     ];
