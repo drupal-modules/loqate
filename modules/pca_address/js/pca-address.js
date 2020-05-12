@@ -65,7 +65,8 @@
    */
   function populateAddressLabelField(addressWrapper, address, fields) {
     let $addressLabel = $('#' + addressWrapper).parent().find('.address-label');
-    let $addressLabelEl = $addressLabel.find('span');
+    let $addressLabelEl = $addressLabel.find('.fieldset-wrapper span');
+    $addressLabelEl.html('');
     $.each(fields, function (i, fieldObj) {
       // Check address key index values.
       if (address[fieldObj.field] !== undefined && address[fieldObj.field] !== '') {

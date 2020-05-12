@@ -90,9 +90,9 @@ class PcaAddress extends Address {
     // Determine if we need to add a manual input link.
     if (!isset($element['#allow_manual_input']) || $element['#allow_manual_input'] === TRUE) {
       $manual_input_link = Link::fromTextAndUrl('Click here', Url::fromUserInput('#enter-address'));
-      $element[PcaAddressElement::ADDRESS_LOOKUP]['#suffix'] = '<div class="manual-address">' . t('@link to enter your address manually.', [
-          '@link' => $manual_input_link->toString(),
-        ]) . '</div>';
+      $element[PcaAddressElement::ADDRESS_LOOKUP]['#suffix'] = '<span class="manual-address">' . t('@link to enter your address manually.', [
+        '@link' => $manual_input_link->toString(),
+      ]) . '</span>';
     }
   }
 
@@ -100,11 +100,13 @@ class PcaAddress extends Address {
     $edit_input_link = Link::fromTextAndUrl('Edit address', Url::fromUserInput('#edit-address'));
     // Add a address label field for plain text details.
     $element['address_label'] = [
-      '#type' => 'markup',
+      '#type' => 'fieldset',
+      '#title' => t('Address'),
       '#markup' => '<span></span>' . $edit_input_link->toString(),
-      '#prefix' => '<div class="address-label hidden">',
-      '#suffix' => '</div>',
       '#weight' => -140,
+      '#attributes' => [
+        'class' => ['address-label', 'hidden'],
+      ],
     ];
   }
 
