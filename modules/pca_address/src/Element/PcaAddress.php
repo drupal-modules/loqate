@@ -68,6 +68,19 @@ class PcaAddress extends Address {
     // Wrap render array in a wrapper before doing anything.
     self::wrapAddressFieldsInit($element);
     // Add a lookup text field.
+    self::addAddressLookupField($element);
+    // Add a label field for plain text details.
+    self::addAddressLabelField($element);
+    // Prepare field mapping specification.
+    self::preparePcaFieldMapping($element);
+    // Prepare and expose options to Drupal Settings.
+    self::preparePcaOptions($element);
+    // Add a generic class for all PCA Address elements.
+    $element['#attributes']['class'][] = 'pca-address';
+    return $element;
+  }
+
+  private static function addAddressLookupField(array &$element): void {
     $element[PcaAddressElement::ADDRESS_LOOKUP] = [
       '#type' => 'textfield',
       '#title' => t('Search Address'),
@@ -78,16 +91,21 @@ class PcaAddress extends Address {
     if (!isset($element['#allow_manual_input']) || $element['#allow_manual_input'] === TRUE) {
       $manual_input_link = Link::fromTextAndUrl('Click here', Url::fromUserInput('#enter-address'));
       $element[PcaAddressElement::ADDRESS_LOOKUP]['#suffix'] = '<div class="manual-address">' . t('@link to enter your address manually.', [
-        '@link' => $manual_input_link->toString(),
-      ]) . '</div>';
+          '@link' => $manual_input_link->toString(),
+        ]) . '</div>';
     }
-    // Prepare field mapping specification.
-    self::preparePcaFieldMapping($element);
-    // Prepare and expose options to Drupal Settings.
-    self::preparePcaOptions($element);
-    // Add a generic class for all PCA Address elements.
-    $element['#attributes']['class'][] = 'pca-address';
-    return $element;
+  }
+
+  private static function addAddressLabelField(array &$element): void {
+    $edit_input_link = Link::fromTextAndUrl('Edit address', Url::fromUserInput('#edit-address'));
+    // Add a address label field for plain text details.
+    $element['address_label'] = [
+      '#type' => 'markup',
+      '#markup' => '<span></span>' . $edit_input_link->toString(),
+      '#prefix' => '<div class="address-label hidden">',
+      '#suffix' => '</div>',
+      '#weight' => -140,
+    ];
   }
 
   /**

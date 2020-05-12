@@ -16,10 +16,10 @@
       const elements = settings.pca_address && settings.pca_address.elements ? settings.pca_address.elements : null;
       $(context).find('.pca-address').once('pcaAddress').each(function () {
         // Get field mapping and options.
-        let fields = false;
-        let options = false;
+        let fields = null;
+        let options = null;
         let addressWrapper = null;
-        if (elements && typeof elements['#' + $(this).attr('id')] !== 'undefined') {
+        if (elements && typeof elements['#' + $(this).attr('id')] !== undefined) {
           fields = elements['#' + $(this).attr('id')].fields;
           options = elements['#' + $(this).attr('id')].options;
           addressWrapper = elements['#' + $(this).attr('id')].address_wrapper;
@@ -29,12 +29,14 @@
           // control.setCountry("CAN");
         });
         control.listen("populate", function(address, variations) {
-          showAddressFields(addressWrapper)
+          showAddressFields(addressWrapper);
+          // Populate address label field.
+          populateAddressLabelField(addressWrapper, address, fields);
           // document.getElementById("myCustomField").value = address.PostalCode;
         });
         // Manual entry toggle.
         $('.manual-address a', context).on('click', function() {
-          showAddressFields(addressWrapper)
+          showAddressFields(addressWrapper);
         });
       });
     },
@@ -52,6 +54,26 @@
       .className.replace(/\bhidden\b/,'');
     // Remove the manual entry toggle link if present.
     $('#' + addressWrapper).parent().find('.manual-address').remove();
+  }
+
+  /**
+   * Populate and removes the .hidden class from the address label field.
+   *
+   * @param addressWrapper
+   * @param address
+   * @param fields
+   */
+  function populateAddressLabelField(addressWrapper, address, fields) {
+    let $addressLabel = $('#' + addressWrapper).parent().find('.address-label');
+    let $addressLabelEl = $addressLabel.find('span');
+    $.each(fields, function (i, fieldObj) {
+      // Check address key index values.
+      if (address[fieldObj.field] !== undefined && address[fieldObj.field] !== '') {
+        // Populate wih values.
+        $addressLabelEl.append(address[fieldObj.field] + '</br>');
+      }
+    });
+    $addressLabel.removeClass('hidden');
   }
 
 })(jQuery, Drupal);
