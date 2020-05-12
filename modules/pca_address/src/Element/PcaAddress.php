@@ -80,28 +80,40 @@ class PcaAddress extends Address {
     return $element;
   }
 
+  /**
+   * Adds a lookup field.
+   *
+   * @param array $element
+   *   Element array.
+   */
   private static function addAddressLookupField(array &$element): void {
     $element[PcaAddressElement::ADDRESS_LOOKUP] = [
       '#type' => 'textfield',
-      '#title' => t('Search Address'),
+      '#title' => \Drupal::translation()->translate('Search Address'),
       '#weight' => -150,
-      '#placeholder' => t('Start typing your address'),
+      '#placeholder' => \Drupal::translation()->translate('Start typing your address'),
     ];
     // Determine if we need to add a manual input link.
     if (!isset($element['#allow_manual_input']) || $element['#allow_manual_input'] === TRUE) {
       $manual_input_link = Link::fromTextAndUrl('Click here', Url::fromUserInput('#enter-address'));
-      $element[PcaAddressElement::ADDRESS_LOOKUP]['#suffix'] = '<span class="manual-address">' . t('@link to enter your address manually.', [
+      $element[PcaAddressElement::ADDRESS_LOOKUP]['#suffix'] = '<span class="manual-address">' . \Drupal::translation()->translate('@link to enter your address manually.', [
         '@link' => $manual_input_link->toString(),
       ]) . '</span>';
     }
   }
 
+  /**
+   * Adds a address label field.
+   *
+   * @param array $element
+   *   Element array.
+   */
   private static function addAddressLabelField(array &$element): void {
     $edit_input_link = Link::fromTextAndUrl('Edit address', Url::fromUserInput('#edit-address'));
     // Add a address label field for plain text details.
     $element['address_label'] = [
       '#type' => 'fieldset',
-      '#title' => t('Address'),
+      '#title' => \Drupal::translation()->translate('Address'),
       '#markup' => '<span></span>' . $edit_input_link->toString(),
       '#weight' => -140,
       '#attributes' => [
