@@ -119,6 +119,7 @@ class PcaAddress extends Address {
    *   Element array.
    */
   private static function addAddressLookupField(array &$element): void {
+    // Add an address lookup field.
     $element[PcaAddressElement::ADDRESS_LOOKUP] = [
       '#type' => 'textfield',
       '#title' => \Drupal::translation()->translate('Search Address'),
@@ -143,17 +144,21 @@ class PcaAddress extends Address {
    *   Element array.
    */
   private static function addAddressLabelField(array &$element): void {
-    $edit_input_link = Link::fromTextAndUrl('Edit address', Url::fromUserInput('#edit-address'));
-    // Add a address label field for plain text details.
+    // Add an address label field for plain text details.
     $element['address_label'] = [
       '#type' => 'fieldset',
       '#title' => \Drupal::translation()->translate('Address'),
-      '#markup' => '<span></span>' . $edit_input_link->toString(),
+      '#markup' => '<span></span>',
       '#weight' => -140,
       '#attributes' => [
         'class' => ['address-label', 'hidden'],
       ],
     ];
+    // Determine if we need to add an edit address link.
+    if (!isset($element['#allow_manual_input']) || $element['#allow_manual_input'] === TRUE) {
+      $edit_input_link = Link::fromTextAndUrl('Edit address', Url::fromUserInput('#edit-address'));
+      $element['address_label']['#markup'] .= $edit_input_link->toString();
+    }
   }
 
   /**
