@@ -29,29 +29,55 @@
           allowManualInput = elements['#' + $(this).attr('id')].allow_manual_input;
         }
         const control = new pca.Address(fields, options);
-        control.listen("load", function() {
+        control.listen("load", function () {
           // control.setCountry("CAN");
         });
-        control.listen("populate", function(address, variations) {
-          // Double check if we allow manual input.
-          if (allowManualInput === true) {
-            doShowAddressFields(addressWrapper);
-          }
+        control.listen("populate", function (address, variations) {
+          // Remove the manual entry toggle link if present.
+          doHideManualEntryLink(addressWrapper);
           // Populate address label field.
-          populateAddressLabelField(addressWrapper, address, fields);
+          doPopulateAddressLabelField(addressWrapper, address, fields);
           // document.getElementById("myCustomField").value = address.PostalCode;
         });
-        // Double check if we allow manual input.
-        if (allowManualInput === true) {
-          // Manual entry toggle.
-          $('.manual-address a', context).on('click', function () {
-            doShowAddressFields(addressWrapper);
-          });
-        }
+        // Address manual input events.
+        $('.manual-address a', context).on('click', function () {
+          // Remove the manual entry toggle link if present.
+          doHideManualEntryLink(addressWrapper);
+          // Remove the address label wrapper as we don't need this is not
+          // needed when showing the address fields.
+          doRemoveAddressLabelWrapper(addressWrapper);
+          // Show address fields.
+          doShowAddressFields(addressWrapper);
+        });
+        // Edit address input event.
+        $('.fieldset-wrapper a', context).on('click', function () {
+          // Remove the address label wrapper.
+          doRemoveAddressLabelWrapper(addressWrapper);
+          // Show address fields.
+          doShowAddressFields(addressWrapper);
+        });
       });
     },
     detach: function detach(context, settings, trigger) {}
   };
+
+  /**
+   * Removes the address label wrapper.
+   *
+   * @param addressWrapper
+   */
+  function doRemoveAddressLabelWrapper(addressWrapper) {
+    $('#' + addressWrapper).parent().find('.address-label-wrapper').remove();
+  }
+
+  /**
+   * Hides the manual entry link.
+   *
+   * @param addressWrapper
+   */
+  function doHideManualEntryLink(addressWrapper) {
+    $('#' + addressWrapper).parent().find('.manual-address').remove();
+  }
 
   /**
    * Removes the .hidden class from the address wrapper.
@@ -62,8 +88,6 @@
     // Remove the hidden class from the address wrapper.
     document.getElementById(addressWrapper).className = document.getElementById(addressWrapper)
       .className.replace(/\bhidden\b/,'');
-    // Remove the manual entry toggle link if present.
-    $('#' + addressWrapper).parent().find('.manual-address').remove();
   }
 
   /**
@@ -73,18 +97,18 @@
    * @param address
    * @param fields
    */
-  function populateAddressLabelField(addressWrapper, address, fields) {
-    let $addressLabel = $('#' + addressWrapper).parent().find('.address-label');
-    let $addressLabelEl = $addressLabel.find('.fieldset-wrapper span');
-    $addressLabelEl.html('');
+  function doPopulateAddressLabelField(addressWrapper, address, fields) {
+    let $addressLabelWrapper = $('#' + addressWrapper).parent().find('.address-label-wrapper');
+    let $addressLabel = $addressLabelWrapper.find('.address-label');
+    $addressLabel.html('');
     $.each(fields, function (i, fieldObj) {
       // Check address key index values.
       if (address[fieldObj.field] !== undefined && address[fieldObj.field] !== '') {
         // Populate wih values.
-        $addressLabelEl.append(address[fieldObj.field] + '</br>');
+        $addressLabel.append(address[fieldObj.field] + '</br>');
       }
     });
-    $addressLabel.removeClass('hidden');
+    $addressLabelWrapper.removeClass('hidden');
   }
 
 })(jQuery, Drupal);
