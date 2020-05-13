@@ -60,45 +60,45 @@ class WebformAddressLoqate extends WebformCompositeBase {
    */
   public static function getCompositeElements(array $element) {
 
-    $t = \Drupal::translation();
+    $drupal_translation = \Drupal::translation();
 
     $elements = [];
 
     $elements['address'] = [
       '#type' => 'textfield',
-      '#title' => $t->translate('Address'),
+      '#title' => $drupal_translation->translate('Address'),
     ];
 
     $elements['address_2'] = [
       '#type' => 'textfield',
-      '#title' => $t->translate('Address 2'),
+      '#title' => $drupal_translation->translate('Address 2'),
     ];
 
     $elements['city'] = [
       '#type' => 'textfield',
-      '#title' => $t->translate('City/Town'),
+      '#title' => $drupal_translation->translate('City/Town'),
     ];
 
     $elements['region'] = [
       '#type' => 'textfield',
-      '#title' => $t->translate('Region'),
+      '#title' => $drupal_translation->translate('Region'),
     ];
 
     $elements['state_province'] = [
       '#type' => 'select',
-      '#title' => $t->translate('State/Province'),
+      '#title' => $drupal_translation->translate('State/Province'),
       '#options' => 'state_province_names',
       '#empty_option' => '',
     ];
 
     $elements['postal_code'] = [
       '#type' => 'textfield',
-      '#title' => $t->translate('Zip/Postal Code'),
+      '#title' => $drupal_translation->translate('Zip/Postal Code'),
     ];
 
     $elements['country'] = [
       '#type' => 'select',
-      '#title' => $t->translate('Country'),
+      '#title' => $drupal_translation->translate('Country'),
       '#options' => 'country_names',
       '#empty_option' => '',
     ];
