@@ -4,3 +4,6 @@ description: 'Provides an integration with Loqate address lookup API.'
 core: 8.x
 core_version_requirement: ^8 || ^9
 package: 'Address'
+configure: loqate.loqate_api_key_config_form
+dependencies:
+  - key:key

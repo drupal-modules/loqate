@@ -13,6 +13,11 @@ use Drupal\Core\Url;
 class LoqateApiKeyConfigForm extends ConfigFormBase {
 
   /**
+   * Config key for the default API key.
+   */
+  public const DEFAULT_API_KEY = 'loqate_api_key';
+
+  /**
    * {@inheritdoc}
    */
   protected function getEditableConfigNames() {
@@ -35,15 +40,13 @@ class LoqateApiKeyConfigForm extends ConfigFormBase {
     $config = $this->config('loqate.loqateapikeyconfig');
 
     $read_more_url = Url::fromUri('https://www.loqate.com/resources/support/setup-guides/advanced-setup-guide/#creating_a_key');
-    $description_read_more_link = Link::fromTextAndUrl('Read more about Loqate API.', $read_more_url);
+    $description_read_more_link = Link::fromTextAndUrl('Read more about Loqate API.', $read_more_url)->toString();
 
-    $form['loqate_api_key'] = [
-      '#type' => 'textfield',
-      '#title' => $this->t('Loqate API key'),
+    $form[self::DEFAULT_API_KEY] = [
+      '#type' => 'key_select',
+      '#title' => $this->t('Default Loqate API key'),
       '#description' => $description_read_more_link,
-      '#maxlength' => 64,
-      '#size' => 64,
-      '#default_value' => $config->get('loqate_api_key'),
+      '#default_value' => $config->get(self::DEFAULT_API_KEY),
     ];
     return parent::buildForm($form, $form_state);
   }
@@ -55,7 +58,7 @@ class LoqateApiKeyConfigForm extends ConfigFormBase {
     parent::submitForm($form, $form_state);
 
     $this->config('loqate.loqateapikeyconfig')
-      ->set('loqate_api_key', $form_state->getValue('loqate_api_key'))
+      ->set(self::DEFAULT_API_KEY, $form_state->getValue(self::DEFAULT_API_KEY))
       ->save();
   }
 

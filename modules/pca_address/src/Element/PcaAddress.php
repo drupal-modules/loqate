@@ -8,6 +8,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Link;
 use Drupal\Core\Render\Element;
 use Drupal\Core\Url;
+use Drupal\loqate\Form\LoqateApiKeyConfigForm;
 use Drupal\loqate\PcaAddressFieldMapping\PcaAddressElement;
 use Drupal\pca_address\Form\PcaAddressSettingsForm;
 
@@ -30,7 +31,7 @@ use Drupal\pca_address\Form\PcaAddressSettingsForm;
  *     ...
  *   ],
  *   '#pca_options' => [
- *     'key' => XXXX-XXXX-XXXX-XXXX, // Defaults to key from config.
+ *     'key' => config_key_id, // Defaults to key from config.
  *     'countries' => ['codeList' => 'USA,CAN'],
  *     'setCountryByIP' => false,
  *     ...
@@ -212,14 +213,44 @@ class PcaAddress extends Address {
    */
   private static function preparePcaOptions(array &$element): void {
     $element['#attached']['drupalSettings']['pca_address']['elements']['#' . $element['#id']]['options'] = [
-      'key' => \Drupal::config('loqate.loqateapikeyconfig')->get('loqate_api_key'),
+      'key' => self::getApiKey(),
     ];
     // Merge options if provided.
     if (isset($element['#pca_options'])) {
+      // Before we merge the options, check on a possibly provided API key value.
+      if (isset($element['#pca_options']['key']) && $key = self::getApiKey($element['#pca_options']['key'])) {
+        // Replace the config key id with the key value.
+        $element['#pca_options']['key'] = $key;
+      }
+      // If not then unset the key value before merging options.
+      else {
+        unset($element['#pca_options']['key']);
+      }
       $element['#attached']['drupalSettings']['pca_address']['elements']['#' . $element['#id']]['options'] = array_merge(
         $element['#attached']['drupalSettings']['pca_address']['elements']['#' . $element['#id']]['options'], $element['#pca_options']
       );
     }
+  }
+
+  /**
+   * Gets the Loqate API key value.
+   *
+   * @param string $config_key
+   *   Optional custom config key.
+   * @return string|null
+   *   The key value if found or NULL.
+   */
+  private static function getApiKey($config_key = LoqateApiKeyConfigForm::DEFAULT_API_KEY) {
+    $key_id = \Drupal::config('loqate.loqateapikeyconfig')->get($config_key);
+    if ($key_id) {
+      /** @var \Drupal\key\KeyRepositoryInterface $key_repository */
+      $key_repository = \Drupal::service('key.repository');
+      $key_entity = $key_repository->getKey($key_id);
+      if ($key_entity) {
+        return $key_entity->getKeyValue();
+      }
+    }
+    return NULL;
   }
 
 }
