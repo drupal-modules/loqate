@@ -23,8 +23,8 @@ use Drupal\pca_address\Form\PcaAddressSettingsForm;
  *       'element' => PcaAddressElement::ADDRESS_LOOKUP,
  *     ],
  *     [
- *       'element' => PcaAddressElement::ADDRESS_LINE1,
- *       'field' => PcaAddressField::Line1,
+ *       'element' => PcaAddressElement::LINE1,
+ *       'field' => PcaAddressField::LINE1,
  *       'mode' => PcaAddressMode::POPULATE,
  *     ],
  *     ...
