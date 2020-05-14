@@ -68,25 +68,18 @@ class PcaAddress extends Address {
     // Wrap render array in a wrapper before doing anything.
     self::wrapAddressFieldsInit($element);
     // Add a lookup text field.
-    $element[PcaAddressElement::ADDRESS_LOOKUP] = [
-      '#type' => 'textfield',
-      '#title' => t('Search Address'),
-      '#weight' => -150,
-      '#placeholder' => t('Start typing your address'),
-    ];
-    // Determine if we need to add a manual input link.
-    if (!isset($element['#allow_manual_input']) || $element['#allow_manual_input'] === TRUE) {
-      $manual_input_link = Link::fromTextAndUrl('Click here', Url::fromUserInput('#enter-address'));
-      $element[PcaAddressElement::ADDRESS_LOOKUP]['#suffix'] = '<div class="manual-address">' . t('@link to enter your address manually.', [
-        '@link' => $manual_input_link->toString(),
-      ]) . '</div>';
-    }
+    self::addAddressLookupField($element);
+    // Add a label field for plain text details.
+    self::addAddressLabelField($element);
     // Prepare field mapping specification.
     self::preparePcaFieldMapping($element);
     // Prepare and expose options to Drupal Settings.
     self::preparePcaOptions($element);
     // Add a generic class for all PCA Address elements.
     $element['#attributes']['class'][] = 'pca-address';
+    // Expose more attributes to Drupal Settings.
+    $element['#attached']['drupalSettings']['pca_address']['elements']['#' . $element['#id']]['show_address_fields'] = $element['#show_address_fields'];
+    $element['#attached']['drupalSettings']['pca_address']['elements']['#' . $element['#id']]['allow_manual_input'] = $element['#allow_manual_input'];
     return $element;
   }
 
@@ -102,7 +95,7 @@ class PcaAddress extends Address {
     $wrapper_id = Html::getUniqueId($element['#name'] . '-address-wrapper');
     // Check if we need to hide the address fields initially.
     $wrapper_class = '';
-    if (!isset($element['#show_address_fields']) || $element['#show_address_fields'] !== TRUE) {
+    if ($element['#show_address_fields'] !== TRUE) {
       $wrapper_class = 'hidden';
     }
     $children = Element::children($element);
@@ -120,6 +113,58 @@ class PcaAddress extends Address {
     }
     // Expose address wrapper id to Drupal Settings.
     $element['#attached']['drupalSettings']['pca_address']['elements']['#' . $element['#id']]['address_wrapper'] = $wrapper_id;
+  }
+
+  /**
+   * Adds a lookup field.
+   *
+   * @param array $element
+   *   Element array.
+   */
+  private static function addAddressLookupField(array &$element): void {
+    // Add an address lookup field.
+    $element[PcaAddressElement::ADDRESS_LOOKUP] = [
+      '#type' => 'textfield',
+      '#title' => \Drupal::translation()->translate('Search Address'),
+      '#weight' => -150,
+      '#placeholder' => \Drupal::translation()->translate('Start typing your address'),
+    ];
+    // Determine if we need to add a manual input link.
+    if ($element['#show_address_fields'] !== TRUE && $element['#allow_manual_input'] === TRUE) {
+      $manual_input_link = Link::fromTextAndUrl('Click here', Url::fromUserInput('#manual-address'));
+      $element[PcaAddressElement::ADDRESS_LOOKUP]['#suffix'] = '<span class="manual-address">' . \Drupal::translation()->translate('@link to enter your address manually.', [
+        '@link' => $manual_input_link->toString(),
+      ]) . '</span>';
+    }
+  }
+
+  /**
+   * Adds a address label field.
+   *
+   * @param array $element
+   *   Element array.
+   */
+  private static function addAddressLabelField(array &$element): void {
+    // Do not process a field label if we show address fields initially as that
+    // is redundant to display to the end user.
+    if ($element['#show_address_fields'] === TRUE) {
+      return;
+    }
+    // Add an address label field for plain text details.
+    $element['address_label'] = [
+      '#type' => 'fieldset',
+      '#title' => \Drupal::translation()->translate('Address'),
+      '#markup' => '<span class="address-label"></span>',
+      '#weight' => -140,
+      '#attributes' => [
+        'class' => ['address-label-wrapper', 'hidden'],
+      ],
+    ];
+    // Determine if we need to add an edit address link.
+    if ($element['#allow_manual_input'] === TRUE) {
+      $edit_input_link = Link::fromTextAndUrl('Edit address', Url::fromUserInput('#edit-address'));
+      $element['address_label']['#markup'] .= '<span class="edit-address">' . $edit_input_link->toString() . '</span>';
+    }
   }
 
   /**
