@@ -5,6 +5,9 @@
  * Contains loqate.install.
  */
 
+use Drupal\key\Entity\Key;
+use Drupal\loqate\Form\LoqateApiKeyConfigForm;
+
 /**
  * Decoupled Webform so install pca_webform submodule for the moved plugins.
  */
@@ -12,4 +15,39 @@ function loqate_update_8001() {
   // All sites using this module up until now would have had these plugins.
   \Drupal::service('module_installer')->install(['pca_webform']);
   return t('PCA Webform installed.');
+}
+
+/**
+ * Install new dependency on the key module.
+ */
+function loqate_update_8002() {
+  // All sites using this module up until now will need this update.
+  \Drupal::service('module_installer')->install(['key']);
+  return t('Key installed.');
+}
+
+/**
+ * Convert old key string value into a key config entity.
+ */
+function loqate_update_8003() {
+  // Move the string value into a key config entity if any.
+  $loqate_config = \Drupal::configFactory()->getEditable('loqate.loqateapikeyconfig');
+  $old_key_value = $loqate_config->get(LoqateApiKeyConfigForm::DEFAULT_API_KEY);
+  if (!empty($old_key_value)) {
+    // Create a new entity key with the config key provider.
+    $key_entity = new Key([
+      'id' => LoqateApiKeyConfigForm::DEFAULT_API_KEY,
+      'label' => 'Loqate API key',
+      'key_provider' => 'config',
+      'key_input' => 'text_field',
+    ], 'key');
+    $key_entity->setKeyValue($old_key_value);
+    $key_entity->save();
+    // Set the config id now as the key value in config.
+    $loqate_config
+      ->set(LoqateApiKeyConfigForm::DEFAULT_API_KEY, LoqateApiKeyConfigForm::DEFAULT_API_KEY)
+      ->save();
+    return t('Key config entity successfully created.');
+  }
+  return t('No old key value found.');
 }
