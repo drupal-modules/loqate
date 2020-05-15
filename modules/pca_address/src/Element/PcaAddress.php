@@ -184,7 +184,7 @@ class PcaAddress extends Address {
    */
   private static function preparePcaFieldMapping(array &$element): void {
     // Fallback to settings.
-    if (!isset($element['#pca_fields']) || empty($element['#pca_fields'])) {
+    if (empty($element['#pca_fields'])) {
       $element['#pca_fields'] = \Drupal::config('pca_address.settings')->get(PcaAddressSettingsForm::PCA_FIELDS);
     }
     // Start normalising value output.

@@ -11,9 +11,8 @@ use Drupal\webform\Plugin\WebformElement\WebformCompositeBase;
  *
  * @WebformElement(
  *   id = "webform_address_loqate",
- *   label = @Translation("Address Loqate"),
- *   description = @Translation("Loqate API provides a form element to collect
- * address information (street, city, state, zip)."),
+ *   label = @Translation("PCA address"),
+ *   description = @Translation("Loqate API provides a form element to collect address information (street, city, state, zip)."),
  *   category = @Translation("Composite elements"),
  *   multiline = TRUE,
  *   composite = TRUE,
@@ -21,6 +20,13 @@ use Drupal\webform\Plugin\WebformElement\WebformCompositeBase;
  * )
  */
 class WebformAddressLoqate extends WebformCompositeBase {
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getPluginLabel() {
+    return \Drupal::moduleHandler()->moduleExists('pca_address') ? $this->t('Basic PCA address') : parent::getPluginLabel();
+  }
 
   /**
    * {@inheritdoc}
