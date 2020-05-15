@@ -8,7 +8,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Link;
 use Drupal\Core\Render\Element;
 use Drupal\Core\Url;
-use Drupal\loqate\Form\LoqateApiKeyConfigForm;
+use Drupal\loqate\Loqate;
 use Drupal\loqate\PcaAddressFieldMapping\PcaAddressElement;
 use Drupal\pca_address\Form\PcaAddressSettingsForm;
 
@@ -213,12 +213,12 @@ class PcaAddress extends Address {
    */
   private static function preparePcaOptions(array &$element): void {
     $element['#attached']['drupalSettings']['pca_address']['elements']['#' . $element['#id']]['options'] = [
-      'key' => self::getApiKey(),
+      'key' => Loqate::getApiKey(),
     ];
     // Merge options if provided.
     if (isset($element['#pca_options'])) {
       // Before we merge the options, check on a possibly provided API key value.
-      if (isset($element['#pca_options']['key']) && $key = self::getApiKey($element['#pca_options']['key'])) {
+      if (isset($element['#pca_options']['key']) && $key = Loqate::getApiKey($element['#pca_options']['key'])) {
         // Replace the config key id with the key value.
         $element['#pca_options']['key'] = $key;
       }
@@ -230,27 +230,6 @@ class PcaAddress extends Address {
         $element['#attached']['drupalSettings']['pca_address']['elements']['#' . $element['#id']]['options'], $element['#pca_options']
       );
     }
-  }
-
-  /**
-   * Gets the Loqate API key value.
-   *
-   * @param string $config_key
-   *   Optional custom config key.
-   * @return string|null
-   *   The key value if found or NULL.
-   */
-  private static function getApiKey($config_key = LoqateApiKeyConfigForm::DEFAULT_API_KEY) {
-    $key_id = \Drupal::config('loqate.loqateapikeyconfig')->get($config_key);
-    if ($key_id) {
-      /** @var \Drupal\key\KeyRepositoryInterface $key_repository */
-      $key_repository = \Drupal::service('key.repository');
-      $key_entity = $key_repository->getKey($key_id);
-      if ($key_entity) {
-        return $key_entity->getKeyValue();
-      }
-    }
-    return NULL;
   }
 
 }
