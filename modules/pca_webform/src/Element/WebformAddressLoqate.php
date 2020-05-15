@@ -2,6 +2,7 @@
 
 namespace Drupal\pca_webform\Element;
 
+use Drupal\loqate\Loqate;
 use Drupal\webform\Element\WebformCompositeBase;
 
 /**
@@ -46,7 +47,7 @@ class WebformAddressLoqate extends WebformCompositeBase {
       'drupalSettings' => [
         'loqate' => [
           'loqate' => [
-            'key' => \Drupal::config('loqate.loqateapikeyconfig')->get('loqate_api_key'),
+            'key' => Loqate::getApiKey(),
           ],
         ],
       ],

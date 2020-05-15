@@ -30,6 +30,7 @@ class PcaAddressWidget extends AddressDefaultWidget {
       'pca_options' => [],
       'show_address_fields' => FALSE,
       'allow_manual_input' => TRUE,
+      'loqate_api_key' => NULL,
     ] + parent::defaultSettings();
   }
 
@@ -49,6 +50,12 @@ class PcaAddressWidget extends AddressDefaultWidget {
       '#type' => 'checkbox',
       '#title' => $this->t('Allow manual input'),
       '#default_value' => $this->getSetting('allow_manual_input'),
+    ];
+
+    $form['loqate_api_key'] = [
+      '#type' => 'key_select',
+      '#title' => $this->t('Loqate API key'),
+      '#default_value' => $this->getSetting('loqate_api_key'),
     ];
 
     return $form;
@@ -87,10 +94,14 @@ class PcaAddressWidget extends AddressDefaultWidget {
     $element['address']['#pca_fields'] = $widget_settings['pca_fields'];
     // Set options settings.
     $element['address']['#pca_options'] = $widget_settings['pca_options'];
-    // Set options settings.
+    // Set show address fields bool.
     $element['address']['#show_address_fields'] = (bool) $widget_settings['show_address_fields'];
-    // Set options settings.
+    // Set allow manual input bool.
     $element['address']['#allow_manual_input'] = (bool) $widget_settings['allow_manual_input'];
+    // Set options key if set.
+    if ($widget_settings['loqate_api_key']) {
+      $element['address']['#pca_options']['key'] = $widget_settings['loqate_api_key'];
+    }
     return $element;
   }
 
