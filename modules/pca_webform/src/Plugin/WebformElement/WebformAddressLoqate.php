@@ -49,10 +49,10 @@ class WebformAddressLoqate extends WebformCompositeBase {
       if (!empty($value['city'])) {
         $location .= $value['city'];
       }
-      if (!empty($value['state_province'])) {
-        $location .= ($location) ? ', ' : '';
-        $location .= $this->getValueFromOptions('state_province', $composite_elements, $value);
-      }
+
+      $location .= ($location) ? ', ' : '';
+      $location .= $this->getValueFromOptions('state_province', $composite_elements, $value);
+
       if (!empty($value['postal_code'])) {
         $location .= ($location) ? '. ' : '';
         $location .= $value['postal_code'];
@@ -107,7 +107,7 @@ class WebformAddressLoqate extends WebformCompositeBase {
     $option_value = $type === 'select' ? $field['#options'][$value] : $value;
 
     if ($option_value instanceof TranslatableMarkup) {
-      $option_value = $option_value->__toString();
+      $option_value = (string) $option_value;
     }
 
     return $option_value;

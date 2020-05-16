@@ -13,31 +13,29 @@
    */
   Drupal.behaviors.pcaAddress = {
     attach: function attach(context, settings) {
-      const elements = settings.pca_address && settings.pca_address.elements ? settings.pca_address.elements : null;
+      const elements = settings.pca_address.elements ? settings.pca_address.elements : null;
       $(context).find('.pca-address').once('pcaAddress').each(function () {
+        // Init vars.
+        let pcaElementId = $(this).attr('id'),
+            fields = null,
+            options = null,
+            addressWrapper = null,
+            showAddressFields = null,
+            allowManualInput = null;
         // Get field mapping and options.
-        let fields = null;
-        let options = null;
-        let addressWrapper = null;
-        let showAddressFields = null;
-        let allowManualInput = null;
-        if (elements && typeof elements['#' + $(this).attr('id')] !== undefined) {
-          fields = elements['#' + $(this).attr('id')].fields;
-          options = elements['#' + $(this).attr('id')].options;
-          addressWrapper = elements['#' + $(this).attr('id')].address_wrapper;
-          showAddressFields = elements['#' + $(this).attr('id')].show_address_fields;
-          allowManualInput = elements['#' + $(this).attr('id')].allow_manual_input;
+        if (elements && typeof elements['#' + pcaElementId] !== undefined) {
+          fields = elements['#' + pcaElementId].fields;
+          options = elements['#' + pcaElementId].options;
+          addressWrapper = elements['#' + pcaElementId].address_wrapper;
+          showAddressFields = elements['#' + pcaElementId].show_address_fields;
+          allowManualInput = elements['#' + pcaElementId].allow_manual_input;
         }
         const control = new pca.Address(fields, options);
-        control.listen("load", function () {
-          // control.setCountry("CAN");
-        });
-        control.listen("populate", function (address, variations) {
+        control.listen('populate', function (address, variations) {
           // Remove the manual entry toggle link if present.
           doHideManualEntryLink(addressWrapper);
           // Populate address label field.
           doPopulateAddressLabelField(addressWrapper, address, fields);
-          // document.getElementById("myCustomField").value = address.PostalCode;
         });
         // Address manual input events.
         $('.manual-address a', context).on('click', function () {

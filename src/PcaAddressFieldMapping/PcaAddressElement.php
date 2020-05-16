@@ -7,7 +7,7 @@ namespace Drupal\loqate\PcaAddressFieldMapping;
  */
 final class PcaAddressElement {
 
-  public const ADDRESS_LOOKUP = 'address_lookup';
+  public const COUNTRY_CODE = 'country_code';
 
   public const ADMINISTRATIVE_AREA = 'administrative_area';
 

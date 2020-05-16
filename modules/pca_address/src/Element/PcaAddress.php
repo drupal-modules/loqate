@@ -9,7 +9,6 @@ use Drupal\Core\Link;
 use Drupal\Core\Render\Element;
 use Drupal\Core\Url;
 use Drupal\loqate\Loqate;
-use Drupal\loqate\PcaAddressFieldMapping\PcaAddressElement;
 use Drupal\pca_address\Form\PcaAddressSettingsForm;
 
 /**
@@ -123,19 +122,31 @@ class PcaAddress extends Address {
    *   Element array.
    */
   private static function addAddressLookupField(array &$element): void {
+    // Add an address lookup wrapper.
+    $element['address_lookup_wrapper'] = [
+      '#type' => 'container',
+      '#weight' => -90,
+      '#states' => [
+        'visible' => [
+          'select[name="' . "{$element['#name']}[country_code]" . '"]' => ['filled' => TRUE],
+        ],
+      ],
+    ];
     // Add an address lookup field.
-    $element[PcaAddressElement::ADDRESS_LOOKUP] = [
+    $element['address_lookup_wrapper']['address_lookup'] = [
       '#type' => 'textfield',
       '#title' => \Drupal::translation()->translate('Search Address'),
-      '#weight' => -150,
       '#placeholder' => \Drupal::translation()->translate('Start typing your address'),
     ];
     // Determine if we need to add a manual input link.
     if ($element['#show_address_fields'] !== TRUE && $element['#allow_manual_input'] === TRUE) {
       $manual_input_link = Link::fromTextAndUrl('Click here', Url::fromUserInput('#manual-address'));
-      $element[PcaAddressElement::ADDRESS_LOOKUP]['#suffix'] = '<span class="manual-address">' . \Drupal::translation()->translate('@link to enter your address manually.', [
-        '@link' => $manual_input_link->toString(),
-      ]) . '</span>';
+      $element['address_lookup_wrapper']['manual_input_link'] = [
+        '#type' => '#markup',
+        '#markup' => '<span class="manual-address">' . \Drupal::translation()->translate('@link to enter your address manually.', [
+          '@link' => $manual_input_link->toString(),
+        ]) . '</span>',
+      ];
     }
   }
 
@@ -156,7 +167,7 @@ class PcaAddress extends Address {
       '#type' => 'fieldset',
       '#title' => \Drupal::translation()->translate('Address'),
       '#markup' => '<span class="address-label"></span>',
-      '#weight' => -140,
+      '#weight' => -80,
       '#attributes' => [
         'class' => ['address-label-wrapper', 'hidden'],
       ],
@@ -199,6 +210,11 @@ class PcaAddress extends Address {
         $element['#pca_fields'][$i]['field'] = '';
       }
     }
+    // Add fields mapping for the nested lookup field element.
+    $element['#pca_fields'][] = [
+      'element' => "{$element['#name']}[address_lookup_wrapper][address_lookup]",
+      'field' => '',
+    ];
     // Expose the field_mapping options to Drupal Settings.
     $element['#attached']['drupalSettings']['pca_address']['elements']['#' . $element['#id']]['fields'] = $element['#pca_fields'];
   }
