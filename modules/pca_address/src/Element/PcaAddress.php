@@ -77,9 +77,6 @@ class PcaAddress extends Address {
     self::preparePcaOptions($element);
     // Add a generic class for all PCA Address elements.
     $element['#attributes']['class'][] = 'pca-address';
-    // Expose more attributes to Drupal Settings.
-    $element['#attached']['drupalSettings']['pca_address']['elements']['#' . $element['#id']]['show_address_fields'] = $element['#show_address_fields'];
-    $element['#attached']['drupalSettings']['pca_address']['elements']['#' . $element['#id']]['allow_manual_input'] = $element['#allow_manual_input'];
     return $element;
   }
 

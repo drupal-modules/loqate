@@ -19,16 +19,12 @@
         let pcaElementId = $(this).attr('id'),
             fields = null,
             options = null,
-            addressWrapper = null,
-            showAddressFields = null,
-            allowManualInput = null;
+            addressWrapper = null;
         // Get field mapping and options.
         if (elements && typeof elements['#' + pcaElementId] !== undefined) {
           fields = elements['#' + pcaElementId].fields;
           options = elements['#' + pcaElementId].options;
           addressWrapper = elements['#' + pcaElementId].address_wrapper;
-          showAddressFields = elements['#' + pcaElementId].show_address_fields;
-          allowManualInput = elements['#' + pcaElementId].allow_manual_input;
         }
         const control = new pca.Address(fields, options);
         control.listen('populate', function (address, variations) {
