@@ -25,8 +25,8 @@ REQUIREMENTS
 
 This module requires the following outside of Drupal core:
 
- * Address - https://www.drupal.org/project/address
- * Webform (optional) - https://www.drupal.org/project/webform
+ * Address (`pca_address`) - https://www.drupal.org/project/address
+ * Webform (`pca_webform`) - https://www.drupal.org/project/webform
  * Loqate key -
    https://www.loqate.com/resources/support/setup-guides/advanced-setup-guide/#creating_a_key
 
