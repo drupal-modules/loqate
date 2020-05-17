@@ -14,6 +14,9 @@
   Drupal.behaviors.pcaAddress = {
     attach: function attach(context, settings) {
       const elements = settings.pca_address.elements ? settings.pca_address.elements : null;
+
+      console.log('init', elements);
+
       $(context).find('.pca-address').once('pcaAddress').each(function () {
         // Init vars.
         let pcaElementId = $(this).attr('id'),
@@ -26,6 +29,9 @@
           options = elements['#' + pcaElementId].options;
           addressWrapper = elements['#' + pcaElementId].address_wrapper;
         }
+
+        console.log('process', [elements, pcaElementId, fields, options, addressWrapper]);
+
         const control = new pca.Address(fields, options);
         control.listen('populate', function (address, variations) {
           // Remove the manual entry toggle link if present.
