@@ -14,7 +14,7 @@ final class Loqate {
   /**
    * Gets the Loqate API key value.
    *
-   * @param string $key_id
+   * @param null $key_id
    *   Optional custom key module key id.
    *
    * @return string|null

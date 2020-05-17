@@ -51,3 +51,24 @@ function loqate_update_8003() {
   }
   return t('No old key value found.');
 }
+
+/**
+ * Assign administer loqate api permission to roles.
+ */
+function loqate_update_8004() {
+
+  $old_perm = 'access administration pages';
+  $new_perm = 'administer loqate api';
+  $did_update = FALSE;
+
+  /** @var \Drupal\user\RoleInterface[] $roles */
+  $roles = \Drupal::entityTypeManager()->getStorage('user_role')->loadMultiple();
+  foreach ($roles as $role) {
+    if ($role->hasPermission($old_perm)) {
+      $role->grantPermission($new_perm)->save();
+      $did_update = TRUE;
+    }
+  }
+
+  return $did_update ? t('Loqate permission has been granted') : t('No permission updaes required');
+}

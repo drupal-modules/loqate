@@ -4,6 +4,6 @@ pca_address.settings_form:
     _form: '\Drupal\pca_address\Form\PcaAddressSettingsForm'
     _title: 'PCA Address settings'
   requirements:
-    _permission: 'access administration pages'
+    _permission: 'administer loqate api'
   options:
     _admin_route: TRUE
