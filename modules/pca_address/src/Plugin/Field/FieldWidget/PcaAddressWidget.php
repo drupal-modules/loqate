@@ -68,15 +68,16 @@ class PcaAddressWidget extends AddressDefaultWidget {
     $summary = [];
     $widget_settings = $this->getSettings();
 
-    $settings_link = Link::fromTextAndUrl('PCA Address', Url::fromRoute('pca_address.settings_form'));
-    $summary[] = $this->t('See @link for field mapping.', ['@link' => $settings_link->toString()]);
-
     $summary[] = $this->t('Show address fields: @bool', [
       '@bool' => (bool) $widget_settings['show_address_fields'] ? 'Yes' : 'No',
     ]);
 
     $summary[] = $this->t('Allow manual input: @bool', [
       '@bool' => (bool) $widget_settings['allow_manual_input'] ? 'Yes' : 'No',
+    ]);
+
+    $summary[] = $this->t('Key ID: @key', [
+      '@key' => !empty($widget_settings['loqate_api_key']) ? $widget_settings['loqate_api_key'] : 'None',
     ]);
 
     return $summary;
