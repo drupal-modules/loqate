@@ -10,5 +10,7 @@
     "issues": "https://www.drupal.org/project/issues/loqate",
     "source": "http://cgit.drupalcode.org/loqate"
   },
-  "require": { }
+  "require": {
+    "drupal/key": "^1.13"
+  }
 }
