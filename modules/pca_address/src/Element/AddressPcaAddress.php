@@ -12,12 +12,12 @@ use Drupal\loqate\Loqate;
 use Drupal\pca_address\Form\PcaAddressSettingsForm;
 
 /**
- * Provides a PCA address form element.
+ * Provides an advanced PCA address form element.
  *
  * Usage example:
  * @code
  * $form['address'] = [
- *   '#type' => 'pca_address',
+ *   '#type' => 'pca_address_advanced',
  *   '#pca_fields' => [
  *     [
  *       'element' => PcaAddressElement::ADDRESS_LOOKUP,
@@ -43,9 +43,9 @@ use Drupal\pca_address\Form\PcaAddressSettingsForm;
  *
  * @see \Drupal\address\Element\Address
  *
- * @FormElement("pca_address")
+ * @FormElement("pca_address_advanced")
  */
-class PcaAddress extends Address {
+class AddressPcaAddress extends Address {
 
   /**
    * {@inheritdoc}

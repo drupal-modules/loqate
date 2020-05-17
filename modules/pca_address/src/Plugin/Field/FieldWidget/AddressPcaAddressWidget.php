@@ -7,17 +7,17 @@ use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Form\FormStateInterface;
 
 /**
- * Plugin implementation of the 'pca_address' widget.
+ * Plugin implementation of the 'pca_address_advanced' widget.
  *
  * @FieldWidget(
- *   id = "pca_address",
+ *   id = "pca_address_advanced",
  *   label = @Translation("PCA Address"),
  *   field_types = {
  *     "address"
  *   },
  * )
  */
-class PcaAddressWidget extends AddressDefaultWidget {
+class AddressPcaAddressWidget extends AddressDefaultWidget {
 
   /**
    * {@inheritdoc}
@@ -88,7 +88,7 @@ class PcaAddressWidget extends AddressDefaultWidget {
     $element = parent::formElement($items, $delta, $element,$form, $form_state);
     $widget_settings = $this->getSettings();
     // Override to PCA address variant.
-    $element['address']['#type'] = 'pca_address';
+    $element['address']['#type'] = 'pca_address_advanced';
     // Set field mapping settings.
     $element['address']['#pca_fields'] = $widget_settings['pca_fields'];
     // Set options settings.
