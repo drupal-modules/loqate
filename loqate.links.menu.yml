@@ -4,3 +4,9 @@ loqate.loqate_api_key_config_form:
   description: 'Loqate API configuration.'
   parent: system.admin_config_services
   weight: 99
+
+loqate.settings_form:
+  title: 'PCA Address settings'
+  route_name: loqate.settings_form
+  description: 'PCA Address settings'
+  parent: loqate.loqate_api_key_config_form
