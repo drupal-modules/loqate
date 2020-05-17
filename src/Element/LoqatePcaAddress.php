@@ -59,7 +59,6 @@ class LoqatePcaAddress extends FormElement {
       '#show_address_fields' => FALSE,
       '#allow_manual_input' => TRUE,
       '#attached' => [
-        // @TODO: Move this to base module.
         'library' => ['loqate/element.pca_address.address.js'],
       ],
       '#theme_wrappers' => ['container'],

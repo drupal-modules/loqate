@@ -7,3 +7,13 @@ loqate.loqate_api_key_config_form:
     _permission: 'administer loqate api'
   options:
     _admin_route: TRUE
+
+loqate.settings_form:
+  path: '/admin/config/services/loqate-api/pca-address'
+  defaults:
+    _form: '\Drupal\loqate\Form\PcaAddressSettingsForm'
+    _title: 'PCA Address settings'
+  requirements:
+    _permission: 'administer loqate api'
+  options:
+    _admin_route: TRUE

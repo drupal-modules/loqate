@@ -1,4 +1,0 @@
-pca_address.settings_form:
-  route_name: pca_address.settings_form
-  title: 'PCA Address'
-  base_route: loqate.loqate_api_key_config_form

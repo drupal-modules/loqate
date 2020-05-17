@@ -7,7 +7,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Link;
 use Drupal\Core\Render\Element;
 use Drupal\Core\Url;
-use Drupal\pca_address\Form\PcaAddressSettingsForm;
+use Drupal\loqate\Form\PcaAddressSettingsForm;
 
 /**
  * Class PcaAddressTrait.
@@ -146,7 +146,7 @@ trait PcaAddressTrait {
   private static function preparePcaFieldMapping(array &$element): void {
     // Fallback to settings.
     if (empty($element['#pca_fields'])) {
-      $element['#pca_fields'] = \Drupal::config('pca_address.settings')->get(PcaAddressSettingsForm::PCA_FIELDS);
+      $element['#pca_fields'] = \Drupal::config('loqate.settings')->get(PcaAddressSettingsForm::PCA_FIELDS);
     }
     // Start normalising value output.
     foreach ($element['#pca_fields'] as $i => $field_mapping) {
