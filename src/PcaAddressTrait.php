@@ -30,8 +30,6 @@ trait PcaAddressTrait {
     self::preparePcaFieldMapping($element);
     // Prepare and expose options to Drupal Settings.
     self::preparePcaOptions($element);
-    // Add a generic class for all PCA Address elements.
-    $element['#attributes']['class'][] = 'pca-address';
     return $element;
   }
 

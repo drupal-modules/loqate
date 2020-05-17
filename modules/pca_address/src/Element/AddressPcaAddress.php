@@ -53,7 +53,7 @@ class AddressPcaAddress extends Address {
     $info['#pca_options'] = [];
     $info['#show_address_fields'] = FALSE;
     $info['#allow_manual_input'] = TRUE;
-    $info['#attached']['library'][] = 'pca_address/element.pca_address.address.js';
+    $info['#attached']['library'][] = 'loqate/element.pca_address.address.js';
     return $info;
   }
 

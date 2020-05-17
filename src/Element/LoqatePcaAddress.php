@@ -60,8 +60,9 @@ class LoqatePcaAddress extends FormElement {
       '#allow_manual_input' => TRUE,
       '#attached' => [
         // @TODO: Move this to base module.
-        'library' => ['pca_address/element.pca_address.address.js'],
+        'library' => ['loqate/element.pca_address.address.js'],
       ],
+      '#theme_wrappers' => ['container'],
     ];
   }
 
@@ -69,6 +70,9 @@ class LoqatePcaAddress extends FormElement {
    * Process the address fields.
    */
   public static function processAddress(array &$element, FormStateInterface $form_state, array &$complete_form) {
+
+    // Ensure tree structure in output.
+    $element['#tree'] = TRUE;
 
     $element[PcaAddressElement::LINE1] = [
       '#type' => 'textfield',

@@ -15,46 +15,45 @@
     attach: function attach(context, settings) {
       const elements = settings.pca_address.elements ? settings.pca_address.elements : null;
 
-      console.log('init', elements);
+      $.each(elements, function (elementId, value) {
 
-      $(context).find('.pca-address').once('pcaAddress').each(function () {
-        // Init vars.
-        let pcaElementId = $(this).attr('id'),
-            fields = null,
-            options = null,
-            addressWrapper = null;
-        // Get field mapping and options.
-        if (elements && typeof elements['#' + pcaElementId] !== undefined) {
-          fields = elements['#' + pcaElementId].fields;
-          options = elements['#' + pcaElementId].options;
-          addressWrapper = elements['#' + pcaElementId].address_wrapper;
-        }
+        $(context).find(elementId).once('pcaAddress').each(function () {
+          // Init vars.
+          let pcaElementId = $(this).attr('id'),
+              fields = null,
+              options = null,
+              addressWrapper = null;
+          // Get field mapping and options.
+          if (elements && typeof elements['#' + pcaElementId] !== undefined) {
+            fields = elements['#' + pcaElementId].fields;
+            options = elements['#' + pcaElementId].options;
+            addressWrapper = elements['#' + pcaElementId].address_wrapper;
+          }
 
-        console.log('process', [elements, pcaElementId, fields, options, addressWrapper]);
-
-        const control = new pca.Address(fields, options);
-        control.listen('populate', function (address, variations) {
-          // Remove the manual entry toggle link if present.
-          doHideManualEntryLink(addressWrapper);
-          // Populate address label field.
-          doPopulateAddressLabelField(addressWrapper, address, fields);
-        });
-        // Address manual input events.
-        $('.manual-address a', context).on('click', function () {
-          // Remove the manual entry toggle link if present.
-          doHideManualEntryLink(addressWrapper);
-          // Remove the address label wrapper as we don't need this is not
-          // needed when showing the address fields.
-          doRemoveAddressLabelWrapper(addressWrapper);
-          // Show address fields.
-          doShowAddressFields(addressWrapper);
-        });
-        // Edit address input event.
-        $('.fieldset-wrapper a', context).on('click', function () {
-          // Remove the address label wrapper.
-          doRemoveAddressLabelWrapper(addressWrapper);
-          // Show address fields.
-          doShowAddressFields(addressWrapper);
+          const control = new pca.Address(fields, options);
+          control.listen('populate', function (address, variations) {
+            // Remove the manual entry toggle link if present.
+            doHideManualEntryLink(addressWrapper);
+            // Populate address label field.
+            doPopulateAddressLabelField(addressWrapper, address, fields);
+          });
+          // Address manual input events.
+          $('.manual-address a', context).on('click', function () {
+            // Remove the manual entry toggle link if present.
+            doHideManualEntryLink(addressWrapper);
+            // Remove the address label wrapper as we don't need this is not
+            // needed when showing the address fields.
+            doRemoveAddressLabelWrapper(addressWrapper);
+            // Show address fields.
+            doShowAddressFields(addressWrapper);
+          });
+          // Edit address input event.
+          $('.fieldset-wrapper a', context).on('click', function () {
+            // Remove the address label wrapper.
+            doRemoveAddressLabelWrapper(addressWrapper);
+            // Show address fields.
+            doShowAddressFields(addressWrapper);
+          });
         });
       });
     },
