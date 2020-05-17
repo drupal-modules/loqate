@@ -1,9 +1,5 @@
 pca_fields:
   -
-    element: address_lookup
-    field: ''
-    mode: 3
-  -
     element: locality
     field: City
     mode: 2

@@ -31,7 +31,7 @@ use Drupal\pca_address\Form\PcaAddressSettingsForm;
  *   ],
  *   '#pca_options' => [
  *     'key' => config_key_id, // Defaults to key from config.
- *     'countries' => ['codeList' => 'USA,CAN'],
+ *     'countries' => ['codesList' => 'USA,CAN'],
  *     'setCountryByIP' => false,
  *     ...
  *   ],

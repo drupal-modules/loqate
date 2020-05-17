@@ -5,8 +5,6 @@ namespace Drupal\pca_address\Plugin\Field\FieldWidget;
 use Drupal\address\Plugin\Field\FieldWidget\AddressDefaultWidget;
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Link;
-use Drupal\Core\Url;
 
 /**
  * Plugin implementation of the 'pca_address' widget.
