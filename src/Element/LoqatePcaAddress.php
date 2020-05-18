@@ -6,7 +6,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\Element\FormElement;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\loqate\PcaAddressFieldMapping\PcaAddressElement;
-use Drupal\loqate\PcaAddressTrait;
+use Drupal\loqate\PcaAddressElementTrait;
 
 /**
  * Provides a standalone Loqate PCA address form element.
@@ -42,7 +42,7 @@ use Drupal\loqate\PcaAddressTrait;
  */
 class LoqatePcaAddress extends FormElement {
 
-  use PcaAddressTrait;
+  use PcaAddressElementTrait;
 
   /**
    * {@inheritdoc}
@@ -76,6 +76,7 @@ class LoqatePcaAddress extends FormElement {
     $element[PcaAddressElement::LINE1] = [
       '#type' => 'textfield',
       '#title' => new TranslatableMarkup('Address Line 1'),
+      '#required' => TRUE,
     ];
 
     $element[PcaAddressElement::LINE2] = [
@@ -86,6 +87,7 @@ class LoqatePcaAddress extends FormElement {
     $element[PcaAddressElement::LOCALITY] = [
       '#type' => 'textfield',
       '#title' => new TranslatableMarkup('City/Town'),
+      '#required' => TRUE,
     ];
 
     $element[PcaAddressElement::ADMINISTRATIVE_AREA] = [
@@ -96,6 +98,7 @@ class LoqatePcaAddress extends FormElement {
     $element[PcaAddressElement::POSTAL_CODE] = [
       '#type' => 'textfield',
       '#title' => new TranslatableMarkup('ZIP/Postal Code'),
+      '#required' => TRUE,
     ];
 
     $element[PcaAddressElement::COUNTRY_CODE] = [

@@ -15,9 +15,9 @@ use Drupal\loqate\PcaAddressFieldMapping\PcaAddressElement;
  *   id = "pca_address",
  *   label = @Translation("PCA Address"),
  *   description = @Translation("An entity field containing a postal address"),
- *   category = @Translation("Field"),
- *   default_widget = "pca_address",
- *   default_formatter = "pca_address",
+ *   category = @Translation("Address"),
+ *   default_widget = "pca_address_default",
+ *   default_formatter = "pca_address_default",
  *   list_class = "\Drupal\Core\Field\FieldItemList",
  * )
  */

@@ -1,24 +1,24 @@
 <?php
 
-namespace Drupal\pca_address\Plugin\Field\FieldWidget;
+namespace Drupal\loqate\Plugin\Field\FieldWidget;
 
-use Drupal\address\Plugin\Field\FieldWidget\AddressDefaultWidget;
 use Drupal\Core\Field\FieldItemListInterface;
+use Drupal\Core\Field\WidgetBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\loqate\PcaAddressFieldWidgetTrait;
 
 /**
- * Plugin implementation of the 'pca_address_advanced' widget.
+ * Plugin implementation of the 'pca_address_default' widget.
  *
  * @FieldWidget(
- *   id = "pca_address_advanced",
+ *   id = "pca_address_default",
  *   label = @Translation("PCA Address"),
  *   field_types = {
- *     "address"
+ *     "pca_address"
  *   },
  * )
  */
-class AddressPcaAddressWidget extends AddressDefaultWidget {
+class LoqatePcaAddressDefaultWidget extends WidgetBase {
 
   use PcaAddressFieldWidgetTrait;
 
@@ -47,9 +47,16 @@ class AddressPcaAddressWidget extends AddressDefaultWidget {
    * {@inheritdoc}
    */
   public function formElement(FieldItemListInterface $items, $delta, array $element, array &$form, FormStateInterface $form_state) {
-    $element = parent::formElement($items, $delta, $element,$form, $form_state);
-    // Override to PCA address variant.
-    $element['address']['#type'] = 'pca_address_advanced';
+
+    $field_settings = $this->getFieldSettings();
+    $widget_settings = $this->getSettings();
+
+    $element['address'] = [
+      '#type' => 'pca_address',
+      '#default_value' => $items[$delta]->value ?? NULL,
+      '#required' => $this->fieldDefinition->isRequired(),
+    ];
+
     return $this->buildWidgetFormElement($element);
   }
 

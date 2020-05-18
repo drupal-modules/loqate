@@ -3,7 +3,7 @@
 namespace Drupal\pca_address\Element;
 
 use Drupal\address\Element\Address;
-use Drupal\loqate\PcaAddressTrait;
+use Drupal\loqate\PcaAddressElementTrait;
 
 /**
  * Provides an advanced PCA address form element.
@@ -41,7 +41,7 @@ use Drupal\loqate\PcaAddressTrait;
  */
 class AddressPcaAddress extends Address {
 
-  use PcaAddressTrait;
+  use PcaAddressElementTrait;
 
   /**
    * {@inheritdoc}
