@@ -51,6 +51,11 @@ class LoqatePcaAddressDefaultWidget extends WidgetBase {
     $field_settings = $this->getFieldSettings();
     $widget_settings = $this->getSettings();
 
+    $element += [
+      '#type' => 'details',
+      '#open' => TRUE,
+    ];
+
     $element['address'] = [
       '#type' => 'pca_address',
       '#default_value' => $items[$delta]->value ?? NULL,
