@@ -40,7 +40,7 @@ class LoqateApiKeyConfigForm extends ConfigFormBase {
     $config = $this->config('loqate.loqateapikeyconfig');
 
     $read_more_url = Url::fromUri('https://www.loqate.com/resources/support/setup-guides/advanced-setup-guide/#creating_a_key');
-    $description_read_more_link = Link::fromTextAndUrl('Read more about Loqate API.', $read_more_url)->toString();
+    $description_read_more_link = Link::fromTextAndUrl('Read more about the Loqate API.', $read_more_url)->toString();
 
     $form[self::DEFAULT_API_KEY] = [
       '#type' => 'key_select',
@@ -48,6 +48,16 @@ class LoqateApiKeyConfigForm extends ConfigFormBase {
       '#description' => $description_read_more_link,
       '#default_value' => $config->get(self::DEFAULT_API_KEY),
     ];
+
+    $doc_link = Link::fromTextAndUrl('Security', Url::fromUri('https://www.loqate.com/resources/support/setup-guides/advanced-setup-guide/#security'));
+    $doc_markup = $this->t('<strong>Important:</strong> See Loqate\'s @link section for more details about keeping your Loqate API key secure!', [
+      '@link' => $doc_link->toString(),
+    ]);
+
+    $form['information'] = [
+      '#markup' => '<p>' . $doc_markup . '</p>',
+    ];
+
     return parent::buildForm($form, $form_state);
   }
 

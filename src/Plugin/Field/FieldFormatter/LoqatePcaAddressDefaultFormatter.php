@@ -22,7 +22,15 @@ class LoqatePcaAddressDefaultFormatter extends FormatterBase {
    * {@inheritdoc}
    */
   public function viewElements(FieldItemListInterface $items, $langcode) {
-    // TODO: Implement viewElements() method.
+    $elements = [];
+    foreach ($items as $delta => $item) {
+      if (!$item->isEmpty()) {
+        $elements[$delta] = [
+          '#markup' => implode('</ br>', array_filter($item->toArray())),
+        ];
+      }
+    }
+    return $elements;
   }
 
 }
