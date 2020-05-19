@@ -29,13 +29,14 @@
             options = elements['#' + pcaElementId].options;
             addressWrapper = elements['#' + pcaElementId].address_wrapper;
           }
-
+          // Init label field values.
+          initPopulateAddressLabelField(addressWrapper, fields);
           const control = new pca.Address(fields, options);
           control.listen('populate', function (address, variations) {
             // Remove the manual entry toggle link if present.
             doHideManualEntryLink(addressWrapper);
             // Populate address label field.
-            doPopulateAddressLabelField(addressWrapper, address, fields);
+            doPopulateAddressLabelField(addressWrapper, fields, address);
           });
           // Address manual input events.
           $('.manual-address a', context).on('click', function () {
@@ -93,10 +94,10 @@
    * Populate and removes the .hidden class from the address label field.
    *
    * @param addressWrapper
-   * @param address
    * @param fields
+   * @param address
    */
-  function doPopulateAddressLabelField(addressWrapper, address, fields) {
+  function doPopulateAddressLabelField(addressWrapper, fields, address) {
     let $addressLabelWrapper = $('#' + addressWrapper).parent().find('.address-label-wrapper');
     let $addressLabel = $addressLabelWrapper.find('.address-label');
     $addressLabel.html('');
@@ -108,6 +109,33 @@
       }
     });
     $addressLabelWrapper.removeClass('hidden');
+  }
+
+  /**
+   * Initialise and removes the .hidden class from the address label field.
+   *
+   * @param addressWrapper
+   * @param fields
+   */
+  function initPopulateAddressLabelField(addressWrapper, fields) {
+    let $addressLabelWrapper = $('#' + addressWrapper).parent().find('.address-label-wrapper');
+    let $addressLabel = $addressLabelWrapper.find('.address-label');
+    let hasInputValues = false;
+    $addressLabel.html('');
+    $.each(fields, function (i, fieldObj) {
+      // Lookup values from the input elements.
+      let inputValue = $('input[name="' + fieldObj.element + '"]').val();
+      if (inputValue !== '') {
+        // Populate wih values.
+        $addressLabel.append(inputValue + '</br>');
+        hasInputValues = true;
+      }
+    });
+    // Act upon successfully retrieving pre-existing values.
+    if (hasInputValues) {
+      $addressLabelWrapper.removeClass('hidden');
+      doHideManualEntryLink(addressWrapper);
+    }
   }
 
 })(jQuery, Drupal);
