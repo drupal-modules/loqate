@@ -26,30 +26,28 @@ class LoqatePcaAddressDefaultWidget extends WidgetBase {
    * {@inheritdoc}
    */
   public static function defaultSettings() {
-    return self::getWidgetDefaultSettings() + parent::defaultSettings();
+    return self::getFieldWidgetDefaultSettings() + parent::defaultSettings();
   }
 
   /**
    * {@inheritdoc}
    */
   public function settingsForm(array $form, FormStateInterface $form_state) {
-    return $this->buildWidgetsettingsForm(parent::settingsForm($form, $form_state));
+    return $this->buildFieldWidgetsettingsForm(parent::settingsForm($form, $form_state));
   }
 
   /**
    * {@inheritdoc}
    */
   public function settingsSummary() {
-    return $this->buildWidgetSettingsSummary();
+    return $this->buildFieldWidgetSettingsSummary();
   }
 
   /**
    * {@inheritdoc}
    */
   public function formElement(FieldItemListInterface $items, $delta, array $element, array &$form, FormStateInterface $form_state) {
-
-    $field_settings = $this->getFieldSettings();
-    $widget_settings = $this->getSettings();
+    $item = $items[$delta];
 
     $element += [
       '#type' => 'details',
@@ -58,11 +56,22 @@ class LoqatePcaAddressDefaultWidget extends WidgetBase {
 
     $element['address'] = [
       '#type' => 'pca_address',
-      '#default_value' => $items[$delta]->value ?? NULL,
+      '#default_value' => $item->toArray(),
       '#required' => $this->fieldDefinition->isRequired(),
     ];
 
-    return $this->buildWidgetFormElement($element);
+    return $this->buildFieldWidgetFormElement($element);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function massageFormValues(array $values, array $form, FormStateInterface $form_state) {
+    $new_values = [];
+    foreach ($values as $delta => $value) {
+      $new_values[$delta] = $value['address'];
+    }
+    return $new_values;
   }
 
 }

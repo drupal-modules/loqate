@@ -26,21 +26,21 @@ class AddressPcaAddressWidget extends AddressDefaultWidget {
    * {@inheritdoc}
    */
   public static function defaultSettings() {
-    return self::getWidgetDefaultSettings() + parent::defaultSettings();
+    return self::getFieldWidgetDefaultSettings() + parent::defaultSettings();
   }
 
   /**
    * {@inheritdoc}
    */
   public function settingsForm(array $form, FormStateInterface $form_state) {
-    return $this->buildWidgetsettingsForm(parent::settingsForm($form, $form_state));
+    return $this->buildFieldWidgetsettingsForm(parent::settingsForm($form, $form_state));
   }
 
   /**
    * {@inheritdoc}
    */
   public function settingsSummary() {
-    return $this->buildWidgetSettingsSummary();
+    return $this->buildFieldWidgetSettingsSummary();
   }
 
   /**
@@ -50,7 +50,7 @@ class AddressPcaAddressWidget extends AddressDefaultWidget {
     $element = parent::formElement($items, $delta, $element,$form, $form_state);
     // Override to PCA address variant.
     $element['address']['#type'] = 'pca_address_advanced';
-    return $this->buildWidgetFormElement($element);
+    return $this->buildFieldWidgetFormElement($element);
   }
 
 }

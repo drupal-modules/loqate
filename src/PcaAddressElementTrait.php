@@ -18,6 +18,18 @@ use Drupal\loqate\Form\PcaAddressSettingsForm;
 trait PcaAddressElementTrait {
 
   /**
+   * Get the default settings for the field widget.
+   */
+  public function buildElementGetInfo() {
+    return [
+      '#pca_fields' => [],
+      '#pca_options' => [],
+      '#show_address_fields' => FALSE,
+      '#allow_manual_input' => TRUE,
+    ];
+  }
+
+  /**
    * Process the PCA address form element.
    */
   public static function processPcaAddress(array &$element, FormStateInterface $form_state, array &$complete_form) {

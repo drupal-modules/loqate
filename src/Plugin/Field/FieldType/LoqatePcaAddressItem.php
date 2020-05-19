@@ -55,6 +55,8 @@ class LoqatePcaAddressItem extends FieldItemBase {
    */
   public static function schema(FieldStorageDefinitionInterface $field_definition) {
 
+    $schema = [];
+
     $schema['columns'][PcaAddressElement::LINE1] = [
       'type' => 'varchar',
       'length' => 255,

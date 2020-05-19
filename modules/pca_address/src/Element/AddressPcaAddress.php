@@ -49,12 +49,8 @@ class AddressPcaAddress extends Address {
   public function getInfo() {
     $info = parent::getInfo();
     $info['#process'][] = [get_class($this), 'processPcaAddress'];
-    $info['#pca_fields'] = [];
-    $info['#pca_options'] = [];
-    $info['#show_address_fields'] = FALSE;
-    $info['#allow_manual_input'] = TRUE;
     $info['#attached']['library'][] = 'loqate/element.pca_address.address.js';
-    return $info;
+    return $this->buildElementGetInfo() + $info;
   }
 
 }

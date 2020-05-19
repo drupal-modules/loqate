@@ -49,7 +49,7 @@ class LoqatePcaAddress extends FormElement {
    */
   public function getInfo() {
     $class = get_class($this);
-    return [
+    return $this->buildElementGetInfo() + [
       '#process' => [
         [$class, 'processAddress'],
         [$class, 'processPcaAddress'],
@@ -57,10 +57,6 @@ class LoqatePcaAddress extends FormElement {
       '#element_validate' => [
         [$class, 'validateAddress'],
       ],
-      '#pca_fields' => [],
-      '#pca_options' => [],
-      '#show_address_fields' => FALSE,
-      '#allow_manual_input' => TRUE,
       '#attached' => [
         'library' => ['loqate/element.pca_address.address.js'],
       ],

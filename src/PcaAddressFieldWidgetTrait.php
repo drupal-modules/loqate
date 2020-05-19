@@ -14,7 +14,7 @@ trait PcaAddressFieldWidgetTrait {
   /**
    * Get the default settings for the field widget.
    */
-  public static function getWidgetDefaultSettings() {
+  public static function getFieldWidgetDefaultSettings() {
     return [
       'pca_fields' => [],
       'pca_options' => [],
@@ -27,7 +27,7 @@ trait PcaAddressFieldWidgetTrait {
   /**
    * Get widget settings form.
    */
-  public function buildWidgetsettingsForm(array $form) {
+  public function buildFieldWidgetsettingsForm(array $form) {
 
     $form['show_address_fields'] = [
       '#type' => 'checkbox',
@@ -53,7 +53,7 @@ trait PcaAddressFieldWidgetTrait {
   /**
    * Build the widget settings summary.
    */
-  public function buildWidgetSettingsSummary() {
+  public function buildFieldWidgetSettingsSummary() {
     $summary = [];
     $widget_settings = $this->getSettings();
 
@@ -72,7 +72,7 @@ trait PcaAddressFieldWidgetTrait {
     return $summary;
   }
 
-  public function buildWidgetFormElement(array $element) {
+  public function buildFieldWidgetFormElement(array $element) {
     $widget_settings = $this->getSettings();
     // Set field mapping settings.
     $element['address']['#pca_fields'] = $widget_settings['pca_fields'];
