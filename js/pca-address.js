@@ -125,7 +125,7 @@
     $.each(fields, function (i, fieldObj) {
       // Lookup values from the input elements.
       let inputValue = $('input[name="' + fieldObj.element + '"]').val();
-      if (inputValue !== '') {
+      if (inputValue !== undefined && inputValue !== '') {
         // Populate wih values.
         $addressLabel.append(inputValue + '</br>');
         hasInputValues = true;
