@@ -1,3 +1,14 @@
+element.pca_address.address.js:
+  version: VERSION
+  js:
+    js/pca-address.js: {}
+  dependencies:
+    - core/jquery
+    - core/jquery.once
+    - core/drupal
+    - core/drupalSettings
+    - loqate/libraries.pca.address.js
+
 libraries.pca.address.js:
   version: '3.91'
   js:

@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\pca_address\Form;
+namespace Drupal\loqate\Form;
 
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
@@ -13,7 +13,7 @@ use Drupal\loqate\PcaAddressFieldMapping\PcaAddressMode;
 /**
  * Class PcaAddressSettingsForm.
  *
- * @package Drupal\pca_address\Form
+ * @package Drupal\loqate\Form
  */
 class PcaAddressSettingsForm extends ConfigFormBase {
 
@@ -39,7 +39,7 @@ class PcaAddressSettingsForm extends ConfigFormBase {
    */
   protected function getEditableConfigNames() {
     return [
-      'pca_address.settings',
+      'loqate.settings',
     ];
   }
 
@@ -48,7 +48,7 @@ class PcaAddressSettingsForm extends ConfigFormBase {
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
 
-    $config = $this->config('pca_address.settings');
+    $config = $this->config('loqate.settings');
 
     $form['field_mapping'] = [
       '#title' => $this->t('Field mapping'),
@@ -156,7 +156,7 @@ class PcaAddressSettingsForm extends ConfigFormBase {
         'mode' => (int) $value['mode']['data'],
       ];
     }
-    $this->config('pca_address.settings')
+    $this->config('loqate.settings')
       ->set(self::PCA_FIELDS, $field_mapping)
       ->save();
     parent::submitForm($form, $form_state);

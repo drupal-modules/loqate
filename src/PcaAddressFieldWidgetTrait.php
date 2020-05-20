@@ -1,42 +1,33 @@
 <?php
 
-namespace Drupal\pca_address\Plugin\Field\FieldWidget;
+namespace Drupal\loqate;
 
-use Drupal\address\Plugin\Field\FieldWidget\AddressDefaultWidget;
-use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Form\FormStateInterface;
 
 /**
- * Plugin implementation of the 'pca_address' widget.
+ * Class PcaAddressFieldWidgetTrait.
  *
- * @FieldWidget(
- *   id = "pca_address",
- *   label = @Translation("PCA Address"),
- *   field_types = {
- *     "address"
- *   },
- * )
+ * @package Drupal\loqate
  */
-class PcaAddressWidget extends AddressDefaultWidget {
+trait PcaAddressFieldWidgetTrait {
 
   /**
-   * {@inheritdoc}
+   * Get the default settings for the field widget.
    */
-  public static function defaultSettings() {
+  public static function getFieldWidgetDefaultSettings() {
     return [
       'pca_fields' => [],
       'pca_options' => [],
       'show_address_fields' => FALSE,
       'allow_manual_input' => TRUE,
       'loqate_api_key' => NULL,
-    ] + parent::defaultSettings();
+    ];
   }
 
   /**
-   * {@inheritdoc}
+   * Get widget settings form.
    */
-  public function settingsForm(array $form, FormStateInterface $form_state) {
-    $form = parent::settingsForm($form, $form_state);
+  public function buildFieldWidgetsettingsForm(array $form) {
 
     $form['show_address_fields'] = [
       '#type' => 'checkbox',
@@ -60,9 +51,9 @@ class PcaAddressWidget extends AddressDefaultWidget {
   }
 
   /**
-   * {@inheritdoc}
+   * Build the widget settings summary.
    */
-  public function settingsSummary() {
+  public function buildFieldWidgetSettingsSummary() {
     $summary = [];
     $widget_settings = $this->getSettings();
 
@@ -81,14 +72,8 @@ class PcaAddressWidget extends AddressDefaultWidget {
     return $summary;
   }
 
-  /**
-   * {@inheritdoc}
-   */
-  public function formElement(FieldItemListInterface $items, $delta, array $element, array &$form, FormStateInterface $form_state) {
-    $element = parent::formElement($items, $delta, $element,$form, $form_state);
+  public function buildFieldWidgetFormElement(array $element) {
     $widget_settings = $this->getSettings();
-    // Override to PCA address variant.
-    $element['address']['#type'] = 'pca_address';
     // Set field mapping settings.
     $element['address']['#pca_fields'] = $widget_settings['pca_fields'];
     // Set options settings.
