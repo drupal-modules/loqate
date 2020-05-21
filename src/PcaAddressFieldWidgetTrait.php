@@ -2,8 +2,6 @@
 
 namespace Drupal\loqate;
 
-use Drupal\Core\Form\FormStateInterface;
-
 /**
  * Class PcaAddressFieldWidgetTrait.
  *

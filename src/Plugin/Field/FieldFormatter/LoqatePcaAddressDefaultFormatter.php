@@ -10,7 +10,7 @@ use Drupal\Core\Field\FormatterBase;
  *
  * @FieldFormatter(
  *   id = "pca_address_default",
- *   label = @Translation("PCA Address"),
+ *   label = @Translation("PCA address"),
  *   field_types = {
  *     "pca_address"
  *   },

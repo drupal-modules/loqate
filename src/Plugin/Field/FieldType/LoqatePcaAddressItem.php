@@ -13,7 +13,7 @@ use Drupal\loqate\PcaAddressFieldMapping\PcaAddressElement;
  *
  * @FieldType(
  *   id = "pca_address",
- *   label = @Translation("PCA Address"),
+ *   label = @Translation("PCA address"),
  *   description = @Translation("An entity field containing a postal address"),
  *   category = @Translation("Address"),
  *   default_widget = "pca_address_default",

@@ -6,7 +6,7 @@ loqate.loqate_api_key_config_form:
   weight: 99
 
 loqate.settings_form:
-  title: 'PCA Address settings'
+  title: 'PCA address settings'
   route_name: loqate.settings_form
-  description: 'PCA Address settings'
+  description: 'PCA address settings'
   parent: loqate.loqate_api_key_config_form

@@ -12,7 +12,7 @@ use Drupal\loqate\PcaAddressFieldWidgetTrait;
  *
  * @FieldWidget(
  *   id = "pca_address_advanced",
- *   label = @Translation("PCA Address"),
+ *   label = @Translation("PCA address"),
  *   field_types = {
  *     "address"
  *   },

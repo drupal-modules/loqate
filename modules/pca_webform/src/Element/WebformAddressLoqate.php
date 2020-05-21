@@ -6,7 +6,7 @@ use Drupal\loqate\Loqate;
 use Drupal\webform\Element\WebformCompositeBase;
 
 /**
- * Provides a webform element for an address element.
+ * Provides a Webform element for an address element.
  *
  * @FormElement("webform_address_loqate")
  */

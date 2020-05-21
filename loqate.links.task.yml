@@ -5,5 +5,5 @@ loqate.loqate_api_key_config_form:
 
 loqate.settings_form:
   route_name: loqate.settings_form
-  title: 'PCA Address'
+  title: 'PCA address settings'
   base_route: loqate.loqate_api_key_config_form
