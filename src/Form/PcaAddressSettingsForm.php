@@ -65,6 +65,8 @@ class PcaAddressSettingsForm extends ConfigFormBase {
       '#markup' => '<p>' . $doc_markup . '</p>',
     ];
 
+    $group_class = 'field-mapping-order-weight';
+
     $form['field_mapping'][self::PCA_FIELDS] = [
       '#type' => 'table',
       '#header' => [
@@ -79,6 +81,17 @@ class PcaAddressSettingsForm extends ConfigFormBase {
         ],
         'enabled' => [
           'data' => $this->t('Enabled'),
+        ],
+        'weight' => [
+          'data' => $this->t('Weight'),
+        ],
+      ],
+      '#tabledrag' => [
+        [
+          'action' => 'order',
+          'relationship' => 'sibling',
+          'group' => $group_class,
+          'hidden' => TRUE,
         ],
       ],
       '#empty' => $this->t('No address fields found.'),
@@ -132,7 +145,17 @@ class PcaAddressSettingsForm extends ConfigFormBase {
             '#default_value' => $default_values['enabled'] ?? FALSE,
           ],
         ],
+        'weight' => [
+          '#type' => 'weight',
+          '#title_display' => 'invisible',
+          '#default_value' => $default_values['weight'] ?? NULL,
+          '#attributes' => ['class' => [$group_class]],
+        ],
       ];
+      // Add the weight attr.
+      $rows[$field_name]['#weight'] = $default_values['weight'] ?? NULL;
+      // Add the draggable class.
+      $rows[$field_name]['#attributes']['class'][] = 'draggable';
     }
 
     $form['field_mapping'][self::PCA_FIELDS] += $rows;

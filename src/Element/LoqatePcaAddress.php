@@ -9,7 +9,7 @@ use Drupal\loqate\PcaAddressFieldMapping\PcaAddressElement;
 use Drupal\loqate\PcaAddressElementTrait;
 
 /**
- * Provides a standalone Loqate PCA address form element.
+ * Provides a simple Loqate PCA address form element.
  *
  * Usage example:
  * @code
