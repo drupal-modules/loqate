@@ -160,7 +160,7 @@ trait PcaAddressElementTrait {
     // Start normalising value output.
     foreach ($element['#pca_fields'] as $i => $field_mapping) {
       // Check enabled.
-      if (isset($field_mapping['enabled']) && $field_mapping['enabled'] === FALSE) {
+      if (!isset($field_mapping['enabled']) || $field_mapping['enabled'] === FALSE) {
         continue;
       }
       // Unset redundant boolean before exposing to Drupal Settings.

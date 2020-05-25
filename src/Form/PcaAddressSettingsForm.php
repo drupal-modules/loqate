@@ -103,9 +103,9 @@ class PcaAddressSettingsForm extends ConfigFormBase {
       $default_values = [];
       foreach ($config->get(self::PCA_FIELDS) as $i => $field_map) {
         if ($field_map['element'] === $field_name) {
-          $default_values['field'] = $field_map['field'];
-          $default_values['mode'] = $field_map['mode'];
-          $default_values['enabled'] = $field_map['enabled'];
+          $default_values['field'] = $field_map['field' ?? ''];
+          $default_values['mode'] = $field_map['mode'] ?? PcaAddressMode::DEFAULT;
+          $default_values['enabled'] = $field_map['enabled'] ?? FALSE;
           $default_values['weight'] = $i;
           break;
         }
@@ -124,7 +124,7 @@ class PcaAddressSettingsForm extends ConfigFormBase {
             '#options' => [
               '' => $this->t('- None -'),
             ] + array_combine(PcaAddressField::getConstants(), PcaAddressField::getConstants()),
-            '#default_value' => $default_values['field'] ?? '',
+            '#default_value' => $default_values['field'],
           ],
         ],
         'mode' => [
@@ -138,24 +138,24 @@ class PcaAddressSettingsForm extends ConfigFormBase {
               PcaAddressMode::PRESERVE => $this->t('PRESERVE'),
               PcaAddressMode::COUNTRY => $this->t('COUNTRY'),
             ],
-            '#default_value' => $default_values['mode'] ?? PcaAddressMode::DEFAULT,
+            '#default_value' => $default_values['mode'],
           ],
         ],
         'enabled' => [
           'data' => [
             '#type' => 'checkbox',
-            '#default_value' => $default_values['enabled'] ?? FALSE,
+            '#default_value' => $default_values['enabled'],
           ],
         ],
         'weight' => [
           '#type' => 'weight',
           '#title_display' => 'invisible',
-          '#default_value' => $default_values['weight'] ?? NULL,
+          '#default_value' => $default_values['weight'],
           '#attributes' => ['class' => [$group_class]],
         ],
       ];
       // Add the weight attr.
-      $rows[$field_name]['#weight'] = $default_values['weight'] ?? NULL;
+      $rows[$field_name]['#weight'] = $default_values['weight'];
       // Add the draggable class.
       $rows[$field_name]['#attributes']['class'][] = 'draggable';
     }

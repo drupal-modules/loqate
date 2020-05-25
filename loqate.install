@@ -72,3 +72,17 @@ function loqate_update_8004() {
 
   return $did_update ? t('Loqate permission has been granted') : t('No permission updaes required');
 }
+
+/**
+ * Updated config to capture the field mapping enabled boolean.
+ */
+function loqate_update_8005() {
+  // Register enabled as TRUE for pre-existing config values.
+  $pca_address_config = \Drupal::configFactory()->getEditable('loqate.settings');
+  $pca_fields = $pca_address_config->get('pca_fields');
+  foreach ($pca_fields as $i => $pca_field) {
+    $pca_fields[$i]['enabled'] = TRUE;
+  }
+  // Set new value in config.
+  $pca_address_config->set('pca_fields', $pca_fields)->save();
+}
