@@ -2,6 +2,7 @@
 
 namespace Drupal\loqate\Form;
 
+use Drupal\Component\Utility\SortArray;
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Link;
@@ -100,11 +101,12 @@ class PcaAddressSettingsForm extends ConfigFormBase {
     $rows = [];
     foreach (PcaAddressElement::getConstants() as $field_name) {
       $default_values = [];
-      foreach ($config->get(self::PCA_FIELDS) as $field_map) {
+      foreach ($config->get(self::PCA_FIELDS) as $i => $field_map) {
         if ($field_map['element'] === $field_name) {
           $default_values['field'] = $field_map['field'];
           $default_values['mode'] = $field_map['mode'];
-          $default_values['enabled'] = TRUE;
+          $default_values['enabled'] = $field_map['enabled'];
+          $default_values['weight'] = $i;
           break;
         }
       }
@@ -158,6 +160,9 @@ class PcaAddressSettingsForm extends ConfigFormBase {
       $rows[$field_name]['#attributes']['class'][] = 'draggable';
     }
 
+    // Sort by weight & add rows to tree.
+    uasort($rows, [SortArray::class, 'sortByWeightElement']);
+
     $form['field_mapping'][self::PCA_FIELDS] += $rows;
 
     return parent::buildForm($form, $form_state);
@@ -170,13 +175,11 @@ class PcaAddressSettingsForm extends ConfigFormBase {
     $values = $form_state->getValue(self::PCA_FIELDS);
     $field_mapping = [];
     foreach ($values as $i => $value) {
-      if ((bool) $value['enabled']['data'] === FALSE) {
-        continue;
-      }
       $field_mapping[] = [
         'element' => $i,
         'field' => $value['field']['data'],
         'mode' => (int) $value['mode']['data'],
+        'enabled' => (bool) $value['enabled']['data'],
       ];
     }
     $this->config('loqate.settings')
