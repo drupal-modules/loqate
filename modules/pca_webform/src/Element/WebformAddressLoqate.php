@@ -9,6 +9,9 @@ use Drupal\webform\Element\WebformCompositeBase;
  * Provides a Webform element for an address element.
  *
  * @FormElement("webform_address_loqate")
+ *
+ * @deprecated in Loqate 2.1.0 and will be removed in Loqate 3.0.0. Use
+ *   \Drupal\loqate\Element\PcaAddress instead.
  */
 class WebformAddressLoqate extends WebformCompositeBase {
 

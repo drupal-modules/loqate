@@ -11,13 +11,16 @@ use Drupal\webform\Plugin\WebformElement\WebformCompositeBase;
  *
  * @WebformElement(
  *   id = "webform_address_loqate",
- *   label = @Translation("PCA address"),
+ *   label = @Translation("PCA address (deprecated)"),
  *   description = @Translation("Loqate API provides a form element to collect address information (street, city, state, zip)."),
  *   category = @Translation("Composite elements"),
  *   multiline = TRUE,
  *   composite = TRUE,
  *   states_wrapper = TRUE,
  * )
+ *
+ * @deprecated in Loqate 2.1.0 and will be removed in Loqate 3.0.0. Use
+ *   \Drupal\pca_webform\Plugin\WebformElement\LoqatePcaAddress instead.
  */
 class WebformAddressLoqate extends WebformCompositeBase {
 
@@ -25,7 +28,7 @@ class WebformAddressLoqate extends WebformCompositeBase {
    * {@inheritdoc}
    */
   public function getPluginLabel() {
-    return \Drupal::moduleHandler()->moduleExists('pca_address') ? $this->t('Basic PCA address') : parent::getPluginLabel();
+    return \Drupal::moduleHandler()->moduleExists('pca_address') ? $this->t('Basic PCA address (deprecated)') : parent::getPluginLabel();
   }
 
   /**

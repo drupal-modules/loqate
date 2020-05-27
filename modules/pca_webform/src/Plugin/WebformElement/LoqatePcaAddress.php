@@ -28,6 +28,13 @@ class LoqatePcaAddress extends WebformCompositeBase {
   /**
    * {@inheritdoc}
    */
+  public function getPluginLabel() {
+    return \Drupal::moduleHandler()->moduleExists('pca_address') ? $this->t('Basic PCA address') : parent::getPluginLabel();
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function getCompositeElements() {
     return [];
   }
