@@ -1,7 +1,8 @@
 <?php
 
-namespace Drupal\pca_webform\Plugin\WebformElement;
+namespace Drupal\loqate\Plugin\WebformElement;
 
+use Drupal\Core\Form\FormStateInterface;
 use Drupal\loqate\PcaAddressFieldMapping\PcaAddressElement;
 use Drupal\webform\Plugin\WebformElement\WebformCompositeBase;
 
@@ -16,12 +17,9 @@ use Drupal\webform\Plugin\WebformElement\WebformCompositeBase;
  *   multiline = TRUE,
  *   composite = TRUE,
  *   states_wrapper = TRUE,
- *   dependencies = {
- *     "loqate",
- *   }
  * )
  *
- * @see \Drupal\loqate\Element\PcaAddress
+ * @see \Drupal\loqate\Element\LoqatePcaAddress
  */
 class LoqatePcaAddress extends WebformCompositeBase {
 
@@ -77,6 +75,21 @@ class LoqatePcaAddress extends WebformCompositeBase {
         '#maxlength' => 2,
       ],
     ];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getDefaultProperties() {
+    return [] + parent::getDefaultProperties();
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function form(array $form, FormStateInterface $form_state) {
+    $form = parent::form($form, $form_state);
+    return $form;
   }
 
 }

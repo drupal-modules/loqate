@@ -20,7 +20,7 @@ use Drupal\webform\Plugin\WebformElement\WebformCompositeBase;
  * )
  *
  * @deprecated in Loqate 2.1.0 and will be removed in Loqate 3.0.0. Use
- *   \Drupal\pca_webform\Plugin\WebformElement\LoqatePcaAddress instead.
+ *   \Drupal\loqate\Plugin\WebformElement\LoqatePcaAddress instead.
  */
 class WebformAddressLoqate extends WebformCompositeBase {
 
