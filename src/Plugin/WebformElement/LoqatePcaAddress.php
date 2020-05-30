@@ -80,8 +80,14 @@ class LoqatePcaAddress extends WebformCompositeBase {
   /**
    * {@inheritdoc}
    */
-  public function getDefaultProperties() {
-    return [] + parent::getDefaultProperties();
+  protected function defineDefaultProperties() {
+    return [
+      'pca_fields' => [],
+      'pca_options' => [],
+      'show_address_fields' => FALSE,
+      'allow_manual_input' => TRUE,
+      'loqate_api_key' => NULL,
+    ] + parent::defineDefaultProperties();
   }
 
   /**
@@ -89,6 +95,28 @@ class LoqatePcaAddress extends WebformCompositeBase {
    */
   public function form(array $form, FormStateInterface $form_state) {
     $form = parent::form($form, $form_state);
+
+    $form['pca_address'] = [
+      '#type' => 'details',
+      '#title' => $this->t('PCA address'),
+      '#open' => TRUE,
+    ];
+
+    $form['pca_address']['show_address_fields'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Show address fields'),
+    ];
+
+    $form['pca_address']['allow_manual_input'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Allow manual input'),
+    ];
+
+    $form['pca_address']['loqate_api_key'] = [
+      '#type' => 'key_select',
+      '#title' => $this->t('Loqate API key'),
+    ];
+
     return $form;
   }
 
