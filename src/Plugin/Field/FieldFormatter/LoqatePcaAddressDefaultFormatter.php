@@ -26,7 +26,7 @@ class LoqatePcaAddressDefaultFormatter extends FormatterBase {
     foreach ($items as $delta => $item) {
       if (!$item->isEmpty()) {
         $elements[$delta] = [
-          '#markup' => implode('</ br>', array_filter($item->toArray())),
+          '#markup' => implode('</br>', array_filter($item->toArray())),
         ];
       }
     }

@@ -2,6 +2,7 @@
 
 namespace Drupal\loqate\Form;
 
+use Drupal\Component\Utility\SortArray;
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Link;
@@ -65,6 +66,8 @@ class PcaAddressSettingsForm extends ConfigFormBase {
       '#markup' => '<p>' . $doc_markup . '</p>',
     ];
 
+    $group_class = 'field-mapping-order-weight';
+
     $form['field_mapping'][self::PCA_FIELDS] = [
       '#type' => 'table',
       '#header' => [
@@ -80,6 +83,17 @@ class PcaAddressSettingsForm extends ConfigFormBase {
         'enabled' => [
           'data' => $this->t('Enabled'),
         ],
+        'weight' => [
+          'data' => $this->t('Weight'),
+        ],
+      ],
+      '#tabledrag' => [
+        [
+          'action' => 'order',
+          'relationship' => 'sibling',
+          'group' => $group_class,
+          'hidden' => TRUE,
+        ],
       ],
       '#empty' => $this->t('No address fields found.'),
     ];
@@ -87,11 +101,12 @@ class PcaAddressSettingsForm extends ConfigFormBase {
     $rows = [];
     foreach (PcaAddressElement::getConstants() as $field_name) {
       $default_values = [];
-      foreach ($config->get(self::PCA_FIELDS) as $field_map) {
+      foreach ($config->get(self::PCA_FIELDS) as $i => $field_map) {
         if ($field_map['element'] === $field_name) {
-          $default_values['field'] = $field_map['field'];
-          $default_values['mode'] = $field_map['mode'];
-          $default_values['enabled'] = TRUE;
+          $default_values['field'] = $field_map['field' ?? ''];
+          $default_values['mode'] = $field_map['mode'] ?? PcaAddressMode::DEFAULT;
+          $default_values['enabled'] = $field_map['enabled'] ?? FALSE;
+          $default_values['weight'] = $i;
           break;
         }
       }
@@ -109,7 +124,7 @@ class PcaAddressSettingsForm extends ConfigFormBase {
             '#options' => [
               '' => $this->t('- None -'),
             ] + array_combine(PcaAddressField::getConstants(), PcaAddressField::getConstants()),
-            '#default_value' => $default_values['field'] ?? '',
+            '#default_value' => $default_values['field'],
           ],
         ],
         'mode' => [
@@ -123,17 +138,30 @@ class PcaAddressSettingsForm extends ConfigFormBase {
               PcaAddressMode::PRESERVE => $this->t('PRESERVE'),
               PcaAddressMode::COUNTRY => $this->t('COUNTRY'),
             ],
-            '#default_value' => $default_values['mode'] ?? PcaAddressMode::DEFAULT,
+            '#default_value' => $default_values['mode'],
           ],
         ],
         'enabled' => [
           'data' => [
             '#type' => 'checkbox',
-            '#default_value' => $default_values['enabled'] ?? FALSE,
+            '#default_value' => $default_values['enabled'],
           ],
         ],
+        'weight' => [
+          '#type' => 'weight',
+          '#title_display' => 'invisible',
+          '#default_value' => $default_values['weight'],
+          '#attributes' => ['class' => [$group_class]],
+        ],
       ];
+      // Add the weight attr.
+      $rows[$field_name]['#weight'] = $default_values['weight'];
+      // Add the draggable class.
+      $rows[$field_name]['#attributes']['class'][] = 'draggable';
     }
+
+    // Sort by weight & add rows to tree.
+    uasort($rows, [SortArray::class, 'sortByWeightElement']);
 
     $form['field_mapping'][self::PCA_FIELDS] += $rows;
 
@@ -147,13 +175,11 @@ class PcaAddressSettingsForm extends ConfigFormBase {
     $values = $form_state->getValue(self::PCA_FIELDS);
     $field_mapping = [];
     foreach ($values as $i => $value) {
-      if ((bool) $value['enabled']['data'] === FALSE) {
-        continue;
-      }
       $field_mapping[] = [
         'element' => $i,
         'field' => $value['field']['data'],
         'mode' => (int) $value['mode']['data'],
+        'enabled' => (bool) $value['enabled']['data'],
       ];
     }
     $this->config('loqate.settings')
