@@ -3,19 +3,44 @@ pca_fields:
     element: locality
     field: City
     mode: 2
+    enabled: true
+  -
+    element: dependent_locality
+    field: ''
+    mode: 0
+    enabled: false
+  -
+    element: administrative_area
+    field: ''
+    mode: 0
+    enabled: false
+  -
+    element: sorting_code
+    field: ''
+    mode: 0
+    enabled: false
+  -
+    element: country_code
+    field: ''
+    mode: 0
+    enabled: false
   -
     element: postal_code
     field: PostalCode
     mode: 2
+    enabled: true
   -
     element: address_line1
     field: Line1
     mode: 2
+    enabled: true
   -
     element: address_line2
     field: Line2
     mode: 2
+    enabled: true
   -
     element: organization
     field: Company
     mode: 2
+    enabled: true

@@ -100,12 +100,17 @@ class PcaAddressSettingsForm extends ConfigFormBase {
 
     $rows = [];
     foreach (PcaAddressElement::getConstants() as $field_name) {
-      $default_values = [];
+      $default_values = [
+        'field' => '',
+        'mode' => PcaAddressMode::DEFAULT,
+        'enabled' => FALSE,
+        'weight' => 0,
+      ];
       foreach ($config->get(self::PCA_FIELDS) as $i => $field_map) {
         if ($field_map['element'] === $field_name) {
-          $default_values['field'] = $field_map['field' ?? ''];
-          $default_values['mode'] = $field_map['mode'] ?? PcaAddressMode::DEFAULT;
-          $default_values['enabled'] = $field_map['enabled'] ?? FALSE;
+          $default_values['field'] = $field_map['field'];
+          $default_values['mode'] = $field_map['mode'];
+          $default_values['enabled'] = $field_map['enabled'];
           $default_values['weight'] = $i;
           break;
         }
