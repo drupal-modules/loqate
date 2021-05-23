@@ -99,7 +99,7 @@ trait PcaAddressElementTrait {
     ];
     // Determine if we need to add a manual input link.
     if ($element['#show_address_fields'] !== TRUE && $element['#allow_manual_input'] === TRUE) {
-      $manual_input_link = Link::fromTextAndUrl('Click here', Url::fromUserInput('#manual-address'));
+      $manual_input_link = Link::fromTextAndUrl(new TranslatableMarkup('Click here'), Url::fromUserInput('#manual-address'));
       $element['address_lookup']['#description'] = [
         '#type' => '#markup',
         '#markup' => '<span class="manual-address">' . new TranslatableMarkup('@link to enter your address manually.', [
