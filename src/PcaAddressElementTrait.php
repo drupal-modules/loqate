@@ -133,7 +133,7 @@ trait PcaAddressElementTrait {
     ];
     // Determine if we need to add an edit address link.
     if ($element['#allow_manual_input'] === TRUE) {
-      $edit_input_link = Link::fromTextAndUrl('Edit address', Url::fromUserInput('#edit-address'));
+      $edit_input_link = Link::fromTextAndUrl(new TranslatableMarkup('Edit address'), Url::fromUserInput('#edit-address'));
       $element['address_label']['#markup'] .= '<span class="edit-address">' . $edit_input_link->toString() . '</span>';
     }
   }
