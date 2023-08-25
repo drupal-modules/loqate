@@ -7,7 +7,7 @@ element.pca_webform.address.js:
       css/pca-webform.css: {}
   dependencies:
     - core/jquery
-    - core/jquery.once
+    - core/once
     - core/drupal
     - core/drupalSettings
     - loqate/libraries.pca.address.js

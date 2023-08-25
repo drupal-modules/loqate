@@ -1,7 +1,7 @@
 name: 'PCA Webform'
 type: module
 description: 'PCA Address integration with the Webform module.'
-core_version_requirement: ^8.8.3 || ^9
+core_version_requirement: ^9 || ^10
 package: 'Address'
 dependencies:
   - loqate:loqate

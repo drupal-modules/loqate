@@ -17,7 +17,9 @@
 
       $.each(elements, function (elementId, value) {
 
-        $(context).find(elementId).once('pcaAddress').each(function () {
+        const $elements =  $(once('pcaAddress', elementId, context));
+        // `$elements` is always a jQuery object.
+        $elements.each(function () {
           // Init vars.
           let pcaElementId = $(this).attr('id'),
               fields = null,
